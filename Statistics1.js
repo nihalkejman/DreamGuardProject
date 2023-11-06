@@ -4,21 +4,26 @@ import { View, Text, Image, StyleSheet } from 'react-native';
 const StatsScreen = () => {
 
 
-  //speed values in array
-  const [speedData, setSpeedData] = useState([25, 30, 30, 35, 20]);`
-  `
+  //weekly speed values in array
+  const [weeklyData, setWeeklyData] = useState([25, 30, 30, 35, 20]);
+
+  //montlhy
+  const[monthlyData, setMonthlyData] = useState([25, 32, 30, 35, 20, 25, 33, 30, 35, 24, 25, 30, 26, 35, 27, 25, 23, 30, 35, 20]);
 
   //av speed
-  const averageSpeed = speedData.length > 0
-      ? speedData.reduce((sum, speed) => sum + speed, 0) / speedData.length:0;
+  const averageSpeed = weeklyData.length > 0
+      ? weeklyData.reduce((sum, speed) => sum + speed, 0) / weeklyData.length:0;
 
-  //top speed
-  const topSpeed = speedData.length > 0 ? Math.max(...speedData) : 0;
+  //weekly top speed
+  const weeklyTopSpeed = weeklyData.length > 0 ? Math.max(...weeklyData) : 0;
+
+  //monthly top speed
+  const monthlyTopSpeed = monthlyData.length > 0 ? Math.max(...monthlyData) : 0;
 
   return (
       <View style={styles.container}>
         {/*Image*/}
-        <Image source={require('./DreamGuardLogo.png')} style={styles.image} />
+        {/* <Image source={require('./DreamGuardLogo.png')} style={styles.image} /> */}
 
         {/*Title*/}
         <Text style={styles.title}>Dream Guard Statistics Screen</Text>
@@ -32,12 +37,12 @@ const StatsScreen = () => {
 
           <View style={styles.statItem}>
             <Text>Weekly Top Speed:</Text>
-            <Text>30 mph</Text>
+            <Text>{weeklyTopSpeed.toFixed(2)} mph</Text>
           </View>
 
           <View style={styles.statItem}>
             <Text>Monthly Top Speed:</Text>
-            <Text>30 mph</Text>
+            <Text>{monthlyTopSpeed.toFixed(2)} mph</Text>
           </View>
 
           <View style={styles.statItem}>
@@ -86,17 +91,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 10,
-  },
-
-
-  navigationBar: {
-    position: 'absolute',
-    bottom: 0,
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    backgroundColor: 'lightgray',
-    padding: 10,
   },
 });
 
