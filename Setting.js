@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 
-const SettingsScreen = () => {
+const SettingScreen = ({ navigation }) => {
     const settingsOptions = [
-        { title: 'Account' },
+        { title: 'Account', screenName: 'Account' },
         { title: 'Emergency Contact' },
         { title: 'Data Privacy' },
         { title: 'Help Centre' },
@@ -13,7 +13,7 @@ const SettingsScreen = () => {
 //nihal 
     const renderItem = ({ item }) => {
         return (
-            <TouchableOpacity style={styles.itemContainer}>
+            <TouchableOpacity onPress={() => navigation.navigate(item.screenName)} style={styles.itemContainer}>
                 <Text style={styles.itemText}>{item.title}</Text>
             </TouchableOpacity>
         );
@@ -52,4 +52,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default SettingsScreen;
+export default SettingScreen;
