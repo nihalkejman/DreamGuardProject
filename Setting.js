@@ -4,11 +4,12 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native
 const SettingScreen = ({ navigation }) => {
     const settingsOptions = [
         { title: 'Account', screenName: 'Account' },
-        { title: 'Emergency Contact' },
+        { title: 'Emergency Contact', screenName: 'EmergencyContact' },
         { title: 'Data Privacy' },
         { title: 'Help Centre' },
         { title: 'Privacy Policy' },
         { title: 'Logout' },
+        { title: 'Home', screenName: 'Home' },
     ];
 //nihal 
     const renderItem = ({ item }) => {
