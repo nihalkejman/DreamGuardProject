@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet } from 'react-native';
-
+//Nihal 
 export default function Login({ navigation }) {
   //  variables to hold the username and password
   const [username, setUsername] = useState('');
