@@ -1,65 +1,57 @@
-import React, {useState} from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import React from 'react';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 
-const StatsScreen = () => {
-  return (
+const sessionsScreen = ({ navigation }) => {
     
-      <View style={styles.container}>
-        {/*Image*/}
-        {/* <Image source={require('./DreamGuardLogo.png')} style={styles.image} /> */}
+    const sessionsOptions = [
+        { title: 'Account'},
+        { title: 'Emergency Contact'},
+        { title: 'Data Privacy'},
+        { title: 'Help Centre'},
+        { title: 'Privacy Policy'},
+        { title: 'Logout'},
+    ];
 
-        {/*Title*/}
-        <Text style={styles.title}>Sessions</Text>
 
-        {/*Stats*/}
-        <View style={styles.statsContainer}>
-          <View style={styles.statItem}>
-            <Text>Date</Text>
-            <Text>Time Began&Ended</Text>
-            <Text>Distance</Text>
-            <Text>Top Speed</Text>
-            <Text>Average Speed</Text>
-            <Text>Ride Time</Text>
-          </View>
+    const renderItem = ({ item }) => {
+        return (
+            <TouchableOpacity onPress={() => navigation.navigate(item.screenName)} style={styles.itemContainer}>
+                <Text style={styles.itemText}>{item.title}</Text>
+            </TouchableOpacity>
+        );
+    };
 
+    return (
+        <View style={styles.container}>
+            <Text style={styles.header}>Sessions</Text>
+            <FlatList
+                data={settingsOptions}
+                renderItem={renderItem}
+                keyExtractor={(item) => item.title}
+            />
         </View>
-
-      </View>
-  );
+    );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
-
-  image: {
-    width: 200,
-    height: 200,
-    resizeMode: 'contain',
-  },
-
-
-  title: {
-    fontSize: 24,
-    marginTop: 20,
-  },
-
-
-  statsContainer: {
-    marginTop: 20,
-    backgroundColor: 'white'
-  },
-
-
-  statItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 10,
-  },
+    container: {
+        flex: 1,
+        backgroundColor: '#f3f3f3',
+        padding: 20,
+    },
+    header: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 20,
+    },
+    itemContainer: {
+        borderBottomWidth: 1,
+        borderBottomColor: '#ccc',
+        padding: 16,
+    },
+    itemText: {
+        fontSize: 18,
+    },
 });
 
-export default StatsScreen;
+export default sessionsScreen;
