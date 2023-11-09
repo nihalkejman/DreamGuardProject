@@ -7,7 +7,7 @@ import Account from './Account'// Account screen
 import Lock from './Lock'
 import EmergencyContactScreen from './EmergencyContact';
 import HomeScreen from './Home';
-import Statistics from './Statistics1';
+import Statistics from './Statistics';
 
 const Stack = createStackNavigator();
 
