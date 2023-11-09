@@ -1,7 +1,7 @@
 import React from 'react';
 import './layouttest.css'; // Make sure to import your CSS file
 
-const MyComponent = () => {
+const stats = () => {
   return (
     <>
       <section className="entry">
@@ -24,4 +24,4 @@ const MyComponent = () => {
   );
 };
 
-export default MyComponent;
+export default stats;
