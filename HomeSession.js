@@ -2,24 +2,24 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, Button, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-const HomeScreen = () => {
+const HomeSession = () => {
     const [name, setName] = useState();
     const [number, setNumber] = useState();
     const [message, setMessage] = useState();
     const navigation = useNavigation();
 
-    const startSession = () => {
+    const stopSession = () => {
         // Navigate to the "HomeSession" screen when the "Start Session" button is pressed
-        navigation.navigate('HomeSession');
+        navigation.navigate('Home');
     };
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
             <TouchableOpacity
-                style={styles.startButton}
-                onPress={startSession} // Add the navigation function here
+                style={styles.stopButton}
+                onPress={stopSession} // Add the navigation function here
             >
-                <Text style={styles.startButtonText}>Start Session</Text>
+                <Text style={styles.stopButtonText}>Stop Session</Text>
             </TouchableOpacity>
 
             <View style={styles.squareContainer}>
@@ -56,13 +56,13 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         backgroundColor: '#E7EEF6',
     },
-    startButton: {
-        backgroundColor: 'black',
+    stopButton: {
+        backgroundColor: 'red',
         padding: 10,
         borderRadius: 10,
         marginBottom: 20,
     },
-    startButtonText: {
+    stopButtonText: {
         color: 'white',
         fontSize: 18,
         fontWeight: 'bold',
@@ -136,4 +136,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default HomeScreen;
+export default HomeSession;
