@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, Button, TextInput } from 'react-native';
+import NavBar from './Navbar'; // Importingthe NavBar component
 
 const HomeScreen = () => {
     const [name, setName] = useState();
@@ -8,43 +9,37 @@ const HomeScreen = () => {
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
-        <Button 
-                title="Start Session" 
+            <NavBar /> {}
+            <Button
+                title="Start Session"
                 onPress={() => alert('Session started.')}
             />
             <Text style={styles.title}>Emergency contact name:</Text>
-            <TextInput 
-                style={styles.contentInput} 
+            <TextInput
+                style={styles.contentInput}
                 onChangeText={text => setName(text)}
                 value={name}
                 placeholder="Enter emergency contact name"
-
-                
             />
 
-<Text style={styles.title}>Emergency contact number:</Text>
-            <TextInput 
-                style={styles.contentInput} 
+            <Text style={styles.title}>Emergency contact number:</Text>
+            <TextInput
+                style={styles.contentInput}
                 onChangeText={text => setNumber(text)}
                 value={number}
                 placeholder="Enter emergency contact number"
+            />
 
-                />
-
-<Text style={styles.title}>Auto Crash Message:</Text>
-            <TextInput 
-                style={styles.contentInput} 
+            <Text style={styles.title}>Auto Crash Message:</Text>
+            <TextInput
+                style={styles.contentInput}
                 onChangeText={text => setMessage(text)}
                 value={message}
                 placeholder="Enter auto crash message"
+            />
 
-                />
-       
-
-            {/* Rest of the content */}
-
-            <Button 
-                title="Save Changes" 
+            <Button
+                title="Save Changes"
                 onPress={() => alert('Emergency settings saved successfully.')}
             />
         </ScrollView>
