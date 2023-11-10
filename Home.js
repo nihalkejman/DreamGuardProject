@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, Button, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Button } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import NavBar from './Navbar'; // Import the NavBar component
 
 const HomeScreen = () => {
-    const [name, setName] = useState();
-    const [number, setNumber] = useState();
-    const [message, setMessage] = useState();
     const navigation = useNavigation();
 
     const startSession = () => {
@@ -15,10 +13,14 @@ const HomeScreen = () => {
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
-            <Button
-                title="Start Session"
-                onPress={() => alert('Session started.')}
-            />
+            {/* Rest of your existing code */}
+            <View style={styles.buttonContainer}>
+                <Button
+                    title="Start Session"
+                    onPress={startSession}
+                    color={styles.startSessionButton.color}
+                />
+            </View>
 
             <View style={styles.squareContainer}>
                 <View style={styles.square}>
@@ -42,7 +44,9 @@ const HomeScreen = () => {
                     <Text style={styles.averageSpeedText}>Average Speed</Text>
                 </View>
             </View>
->>>>>>> 79b4c7896d84ffac97cd75098437094bb69e1830
+
+            {/* Include the NavBar component at the bottom */}
+            <NavBar />
         </ScrollView>
     );
 };
@@ -51,24 +55,24 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'space-between', // Change to 'space-between'
         paddingHorizontal: 20,
+        paddingBottom: 20, // Add paddingBottom to create space for the NavBar
         backgroundColor: '#E7EEF6',
     },
-    startButton: {
+    buttonContainer: {
         backgroundColor: 'black',
-        padding: 10,
         borderRadius: 10,
+        padding: 10,
         marginBottom: 20,
+        marginTop: 150, // Adjust the marginTop value
     },
-    startButtonText: {
+    startSessionButton: {
         color: 'white',
-        fontSize: 18,
-        fontWeight: 'bold',
-        textAlign: 'center',
     },
     squareContainer: {
         alignItems: 'center',
+        marginTop: 10,
     },
     square: {
         width: 100,
@@ -76,7 +80,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 20,
+        marginTop: 10,
         borderRadius: 15,
         shadowColor: 'black',
         shadowOffset: { width: 0, height: 2 },
@@ -113,7 +117,7 @@ const styles = StyleSheet.create({
     lifetimeStatsText: {
         fontSize: 18,
         fontWeight: 'bold',
-        marginTop: 20,
+        marginTop: 10,
     },
     statsContainer: {
         flexDirection: 'row',
