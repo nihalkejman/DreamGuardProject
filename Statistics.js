@@ -21,7 +21,7 @@ const stats = () => {
 
       {/* Repeat the above section for additional entries */}
 
-const styles = StyleSheet.create({    // JavaScript code to apply styles
+const styles = StyleSheet.create{    // JavaScript code to apply styles
 
   document.addEventListener('DOMContentLoaded', function() {
     var entrySection = document.querySelector('.entry');
