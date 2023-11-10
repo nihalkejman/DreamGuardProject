@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, Button, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import NavBar from './Navbar'; // Import the NavBar component
 
 const HomeSession = () => {
     const [name, setName] = useState();
@@ -44,6 +45,9 @@ const HomeSession = () => {
                     <Text style={styles.averageSpeedText}>Average Speed</Text>
                 </View>
             </View>
+
+            {/* Include the NavBar component at the bottom */}
+            <NavBar />
         </ScrollView>
     );
 };
@@ -52,15 +56,16 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'space-between', // Adjusted to 'space-between'
         paddingHorizontal: 20,
+        paddingBottom: 20, // Add paddingBottom to create space for the NavBar
         backgroundColor: '#E7EEF6',
     },
     stopButton: {
         backgroundColor: 'red',
         padding: 10,
         borderRadius: 10,
-        marginBottom: 20,
+        marginTop: 150,
     },
     stopButtonText: {
         color: 'white',
