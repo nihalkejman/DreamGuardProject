@@ -1,5 +1,4 @@
 import React from 'react';
-// import './layouttest.css'; // Make sure to import your CSS file
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { ScrollView } from 'react-native-web';
 
