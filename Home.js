@@ -20,12 +20,10 @@ const HomeScreen = () => {
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
-            <TouchableOpacity
-                style={styles.startButton}
-                onPress={startSession} // Add the navigation function here
-            >
-                <Text style={styles.startButtonText}>Start Session</Text>
-            </TouchableOpacity>
+            <Button
+                title="Start Session"
+                onPress={() => alert('Session started.')}
+            />
 
             <View style={styles.squareContainer}>
                 <View style={styles.square}>
@@ -49,6 +47,7 @@ const HomeScreen = () => {
                     <Text style={styles.averageSpeedText}>Average Speed</Text>
                 </View>
             </View>
+>>>>>>> 79b4c7896d84ffac97cd75098437094bb69e1830
         </ScrollView>
     );
 };
