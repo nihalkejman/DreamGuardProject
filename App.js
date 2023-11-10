@@ -9,6 +9,7 @@ import EmergencyContactScreen from './EmergencyContact';
 import HomeScreen from './Home';
 import HomeSession from './HomeSession';
 import Statistics from './Statistics';
+import Unlock from './Unlock';
 
 const Stack = createStackNavigator();
 
@@ -23,9 +24,7 @@ export default function App() {
                 <Stack.Screen name="EmergencyContact" component={EmergencyContactScreen} options={{ title: 'Emergency Contact' }} />
                 <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Home' }} />
                 <Stack.Screen name="HomeSession" component={HomeSession} options={{ title: 'Home Session' }} />
-
-
-
+                <Stack.Screen name="Unlock" component={Unlock} options={{ title: 'Unlocked' }} />
                 <Stack.Screen name="Statistics" component={Statistics} options={{ title: 'Statistics' }} />
 
             </Stack.Navigator>
