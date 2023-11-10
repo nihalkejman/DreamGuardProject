@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, Button, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const HomeScreen = () => {
     const [name, setName] = useState();
@@ -11,7 +12,11 @@ const HomeScreen = () => {
     const startSession = () => {
         // Navigate to the "HomeSession" screen when the "Start Session" button is pressed
         navigation.navigate('HomeSession');
+
+        
     };
+
+    
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
