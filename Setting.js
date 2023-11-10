@@ -5,7 +5,7 @@ const SettingScreen = ({ navigation }) => {
     const settingsOptions = [
         { title: 'Account', screenName: 'Account' },
         { title: 'Emergency Contact', screenName: 'EmergencyContact' },
-        { title: 'Data Privacy' },
+        { title: 'Data Privacy'  },
         { title: 'Help Centre' },
         { title: 'Privacy Policy' },
         { title: 'Logout' },

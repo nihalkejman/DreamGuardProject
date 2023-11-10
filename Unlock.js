@@ -11,12 +11,10 @@ const BikeUnlockScreen = ({ navigation }) => {
             <Text style={styles.header}>Lock</Text>
             <Text style={styles.subtitle}>Nihal's Dream Guard</Text>
             <TouchableOpacity onPress={handleUnlockPress}>
-                <Image source={require('./assets/lockImage.png')} style={styles.lockImage} />
+                <Image source={require('./assets/unlockButton.png')} style={styles.unlockButton} />
             </TouchableOpacity>
             <Text style={styles.infoText}>Your bike is:</Text>
-            <Text style={styles.statusText}>Locked in place</Text>
-            <Text style={styles.trigger}>Attempting to move it will trigger an alarm which can only be stopped from the app </Text>
-
+            <Text style={styles.statusText}>Free to move</Text>
         </View>
     );
 };
@@ -35,7 +33,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: 'gray',
     },
-    lockImage: {
+    unlockButton: {
         width: 100,
         height: 100,
         marginTop: 20,
@@ -47,14 +45,9 @@ const styles = StyleSheet.create({
     statusText: {
         fontSize: 24,
         fontWeight: 'bold',
-        color: 'red',
+        color: 'green',
     },
-
-    trigger:{
-        fontSize: 15,
-        fontStyle: 'italic',
-        color: 'grey',
-    }
 });
+
 
 export default BikeUnlockScreen;
