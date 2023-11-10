@@ -1,20 +1,27 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import NavBar from './Navbar'; // Import the NavBar component
 
 const BikeUnlockScreen = ({ navigation }) => {
-    const handleUnlockPress = () => {
-        console.log('Unlock button pressed');
+    const handleLockPress = () => {
+        // Navigate to the "Lock" screen when the lock button is pressed
+        navigation.navigate('Lock');
     };
 
     return (
         <View style={styles.container}>
-            <Text style={styles.header}>Lock</Text>
+            <Text style={styles.header}>Unlock</Text>
             <Text style={styles.subtitle}>Nihal's Dream Guard</Text>
-            <TouchableOpacity onPress={handleUnlockPress}>
+            <TouchableOpacity onPress={handleLockPress}>
                 <Image source={require('./assets/unlockButton.png')} style={styles.unlockButton} />
             </TouchableOpacity>
             <Text style={styles.infoText}>Your bike is:</Text>
             <Text style={styles.statusText}>Free to move</Text>
+            
+            {/* Move the NavBar component to the bottom */}
+            <View style={styles.bottomNavBar}>
+                <NavBar />
+            </View>
         </View>
     );
 };
@@ -47,7 +54,11 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: 'green',
     },
+    bottomNavBar: {
+        position: 'absolute',
+        bottom: 0,
+        width: '100%',
+    },
 });
-
 
 export default BikeUnlockScreen;

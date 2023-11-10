@@ -46,7 +46,7 @@ const HomeScreen = () => {
             </View>
 
             {/* Include the NavBar component at the bottom */}
-            <NavBar />
+            <NavBar style={styles.navBar} />
         </ScrollView>
     );
 };
@@ -55,9 +55,9 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'space-between', // Change to 'space-between'
+        justifyContent: 'space-between',
         paddingHorizontal: 20,
-        paddingBottom: 20, // Add paddingBottom to create space for the NavBar
+        paddingBottom: 20,
         backgroundColor: '#E7EEF6',
     },
     buttonContainer: {
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 10,
         marginBottom: 20,
-        marginTop: 150, // Adjust the marginTop value
+        marginTop: 150,
     },
     startSessionButton: {
         color: 'white',
@@ -136,6 +136,11 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.2,
         elevation: 5,
+    },
+    navBar: {
+        position: 'absolute',
+        bottom: 0,
+        width: '100%',
     },
 });
 
