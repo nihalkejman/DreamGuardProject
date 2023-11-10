@@ -1,35 +1,50 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { useNavigation } from '@react-navigation/native';
 
 const NavBar = () => {
+    const navigation = useNavigation();
+
+    const navigateToHome = () => {
+        navigation.navigate('Home'); // Navigate to the "Home" screen
+    };
+
+    const navigateToLock = () => {
+        navigation.navigate('Lock'); // Navigate to the "Lock" screen
+    };
+
+    const navigateToSettings = () => {
+        navigation.navigate('Setting');
+    };
+
     return (
         <View style={styles.navBar}>
-            <View style={styles.iconContainer}>
+            <TouchableOpacity onPress={navigateToHome}>
                 <Icon name="home" size={40} color="black" style={styles.icon} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={navigateToLock}>
                 <Icon name="lock" size={40} color="black" style={styles.icon} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={navigateToSettings}>
                 <Icon name="bar-chart" size={40} color="black" style={styles.icon} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={navigateToSettings}>
                 <Icon name="cog" size={40} color="black" style={styles.icon} />
-            </View>
+            </TouchableOpacity>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
     navBar: {
-        flexDirection: 'row', // Arrange the items horizontally
+        flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: '#E7EEF6',
         paddingHorizontal: 10,
     },
-    iconContainer: {
-        flexDirection: 'row',
-        backgroundColor: '#ededed', // Apply grey background to the container
-        padding: 10,
-        borderRadius: 20,
-    },
     icon: {
-        marginHorizontal: 35, // Space between the icons
+        marginHorizontal: 35,
     },
 });
 
