@@ -12,7 +12,7 @@ import Statistics from './Statistics';
 import Unlock from './Unlock';
 
 const Stack = createStackNavigator();
-
+//a
 export default function App() {
     return (
         <NavigationContainer>
