@@ -9,7 +9,7 @@ export default function Login({ navigation }) {
   const handleLogin = () => {
     if (username === 'yourUsername' && password === 'yourPassword') {
       console.log('Successful login');
-      navigation.navigate('Setting'); // Navigate to the "SettingsScreen" component
+      navigation.navigate('Home'); // Navigate to the "SettingsScreen" component
     } else {
       console.log('Login failed');
     }

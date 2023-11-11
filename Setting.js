@@ -9,7 +9,6 @@ const SettingScreen = ({ navigation }) => {
         { title: 'Help Centre' },
         { title: 'Privacy Policy' },
         { title: 'Logout' },
-        { title: 'Home', screenName: 'Home' },
     ];
 //nihal 
     const renderItem = ({ item }) => {

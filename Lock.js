@@ -1,9 +1,10 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 
-const BikeUnlockScreen = ({ navigation }) => {
+const BikeLockScreen = ({ navigation }) => {
     const handleUnlockPress = () => {
-        console.log('Unlock button pressed');
+        // Navigate to the "Unlock" screen when the unlock button is pressed
+        navigation.navigate('Unlock');
     };
 
     return (
@@ -15,8 +16,9 @@ const BikeUnlockScreen = ({ navigation }) => {
             </TouchableOpacity>
             <Text style={styles.infoText}>Your bike is:</Text>
             <Text style={styles.statusText}>Locked in place</Text>
-            <Text style={styles.trigger}>Attempting to move it will trigger an alarm which can only be stopped from the app </Text>
-
+            <Text style={styles.trigger}>
+                Attempting to move it will trigger an alarm which can only be stopped from the app
+            </Text>
         </View>
     );
 };
@@ -49,12 +51,11 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: 'red',
     },
-
-    trigger:{
+    trigger: {
         fontSize: 15,
         fontStyle: 'italic',
         color: 'grey',
-    }
+    },
 });
 
-export default BikeUnlockScreen;
+export default BikeLockScreen;
