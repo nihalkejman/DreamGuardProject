@@ -11,6 +11,9 @@ const HomeScreen = () => {
         navigation.navigate('HomeSession');
     };
 
+    const [ speed, setSpeed ] = useState(0);
+    const [ averageSpeed, setAverageSpeed ] = useState(0);
+
     return (
         <ScrollView contentContainerStyle={styles.container}>
             {/* Rest of your existing code */}

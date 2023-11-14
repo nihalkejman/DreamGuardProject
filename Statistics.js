@@ -12,7 +12,7 @@ import NavBar from './Navbar';
 }*/
 
 
-const stats = () => {
+const Stats = () => {
   return (
     <View style={styles.container}>
       <container style = {styles.stats}>
@@ -87,4 +87,4 @@ const styles = StyleSheet.create({
 
 })
 
-export default stats;
+export default Stats;
