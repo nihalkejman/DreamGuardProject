@@ -65,7 +65,7 @@ const StatsScreen = () => {
         contentContainerStyle={styles.listContainer}
       />
       
-      <View style={styles.bottomNavBar}>
+      <View style={styles.navBar}>
 
         <NavBar />
       </View>
@@ -77,7 +77,7 @@ const StatsScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'stretch',
+    alignItems: 'center',
 
 
   },
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     marginBottom: 10,
     padding: 16,
-    alignSelf: 'stretch',
+
   },
   header: {
     flexDirection: 'row',
@@ -136,11 +136,7 @@ const styles = StyleSheet.create({
     paddingTop: 10,
   },
 
-  navBar: {
-    position: 'absolute',
-    bottom: 0,
-    paddingBottom: 20,
-  },
+
   footer: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
@@ -149,10 +145,10 @@ const styles = StyleSheet.create({
   timeText: {
     fontWeight: 'bold',
   },
-  bottomNavBar: {
+  navBar: {
     position: 'absolute',
-    bottom: 0,
-    width: '100%',
+    bottom: 20,
+
   },
 });
 
