@@ -3,15 +3,15 @@ import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
 
-const NavBar = () => {
+const NavBar = ({ style }) => {
     const navigation = useNavigation();
 
     const navigateToHome = () => {
-        navigation.navigate('Home');    //Navigate to the "Home" screen
+        navigation.navigate('Home');
     };
 
     const navigateToLock = () => {
-        navigation.navigate('Lock');    //Navigate to the "Lock" screen
+        navigation.navigate('Lock');
     };
 
     const navigateToSettings = () => {
@@ -19,12 +19,11 @@ const NavBar = () => {
     };
 
     const navigateToStats = () => {
-        navigation.navigate('Statistics');  //Nav to stats
-    }
-
+        navigation.navigate('Statistics');
+    };
 
     return (
-        <View style={styles.navBar}>
+        <View style={[styles.navBar, styles.centered, style]}>
             <TouchableOpacity onPress={navigateToHome}>
                 <Icon name="home" size={40} color="black" style={styles.icon} />
             </TouchableOpacity>
@@ -39,7 +38,7 @@ const NavBar = () => {
             </TouchableOpacity>
         </View>
     );
-}
+};
 
 const styles = StyleSheet.create({
     navBar: {
@@ -48,8 +47,12 @@ const styles = StyleSheet.create({
         backgroundColor: '#E7EEF6',
         paddingHorizontal: 10,
     },
+    centered: {
+        justifyContent: 'center',
+        width: '100%',
+    },
     icon: {
-        marginHorizontal: 35,
+        marginHorizontal: 20, 
     },
 });
 

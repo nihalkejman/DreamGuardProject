@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, Button } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import NavBar from './Navbar'; // Import the NavBar 
+import NavBar from './NavBar'; // Import the NavBar 
 
 const HomeScreen = () => {
     const navigation = useNavigation();
@@ -46,7 +46,7 @@ const HomeScreen = () => {
             </View>
 
           
-            <NavBar style={styles.navBar} />
+            <NavBar style={styles.navBarHome} />
         </ScrollView>
     );
 };

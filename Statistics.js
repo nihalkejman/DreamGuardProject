@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, FlatList } from 'react-native';
-import NavBar from './Navbar';
+import NavBar from './NavBar';
 
 const StatsScreen = () => {
   const formatDate = (date) => {
@@ -65,7 +65,7 @@ const StatsScreen = () => {
         contentContainerStyle={styles.listContainer}
       />
       
-      <View style={styles.bottomNavBar}>
+      <View style={styles.navBarStats}>
 
         <NavBar />
       </View>
