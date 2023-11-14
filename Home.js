@@ -1,6 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, Button, TouchableOpacity } from 'react-native';
-import NavBar from './Navbar'; // Import the NavBar 
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { useBLEContext } from './services/BLEContext';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAverageSpeed, useCurrentSpeed, useSessionStatus, useTopSpeed, useTotalAverageSpeed, useTotalRideTime } from './services/BikeboxHooks';
@@ -36,7 +35,7 @@ const HomeScreen = () => {
                 <View style={styles.statsSquare}>
                     <Text style={styles.squareText}>{ speed }</Text>
                     <Text style={styles.mphText}>mph</Text>
-                    <Text style={styles.currentSpeedText}>Current Speed</Text>
+                    <Text style={styles.unitText}>Current Speed</Text>
                 </View>
                 {
                     status && (
@@ -44,17 +43,17 @@ const HomeScreen = () => {
                             <View style={styles.statsSquare}>
                                 <Text style={styles.squareText}>{ averageSpeed }</Text>
                                 <Text style={styles.mphText}>mph</Text>
-                                <Text style={styles.averageSpeedText}>Average Speed</Text>
+                                <Text style={styles.unitText}>Average Speed</Text>
                             </View>
                             <View style={styles.statsSquare}>
                                 <Text style={styles.squareText}>{ topSpeed }</Text>
                                 <Text style={styles.mphText}>mph</Text>
-                                <Text style={styles.averageSpeedText}>Top Speed</Text>
+                                <Text style={styles.unitText}>Top Speed</Text>
                             </View>
                             <View style={styles.statsSquare}>
                                 <Text style={styles.squareText}>{ getRideTime() }</Text>
                                 <Text style={styles.mphText}>minutes</Text>
-                                <Text style={styles.averageSpeedText}>Ride time</Text>
+                                <Text style={styles.unitText}>Ride time</Text>
                             </View>
                         </>
                     )
@@ -67,16 +66,14 @@ const HomeScreen = () => {
                 <View style={styles.statsSquare}>
                     <Text style={styles.squareText}>{ totalRideTime }</Text>
                     <Text style={styles.mphText}>minutes</Text>
-                    <Text style={styles.averageSpeedText}>Total Ride Time</Text>
+                    <Text style={styles.unitText}>Total Ride Time</Text>
                 </View>
                 <View style={styles.statsSquare}>
                     <Text style={styles.squareText}>{ totalAverageSpeed }</Text>
                     <Text style={styles.mphText}>mph</Text>
-                    <Text style={styles.averageSpeedText}>Average Speed</Text>
+                    <Text style={styles.unitText}>Average Speed</Text>
                 </View>
             </View>
-        
-            <NavBar />
         </ScrollView>
     );
 };
@@ -102,7 +99,7 @@ const styles = StyleSheet.create({
     buttonContainer: {
         borderRadius: 10,
         padding: 13,
-        marginBottom: 20,
+        marginBottom: 10,
         width: '85%',
         flexDirection: 'row',
         justifyContent: 'center',
@@ -123,51 +120,18 @@ const styles = StyleSheet.create({
         marginLeft: 15,
         fontSize: 18,
     },
-    squareContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        alignItems: 'center',
-        marginTop: 10,
-    },
-    square: {
-        width: 100,
-        height: 100,
-        backgroundColor: 'white',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 10,
-        borderRadius: 15,
-        shadowColor: 'black',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.2,
-        elevation: 5,
-    },
     squareText: {
-        fontSize: 24,
+        fontSize: 30,
         fontWeight: 'bold',
     },
     mphText: {
         fontSize: 12,
         color: 'grey',
     },
-    milesText: {
-        fontSize: 12,
-        color: 'grey',
-    },
-    currentSpeedText: {
+    unitText: {
         fontSize: 14,
         color: 'black',
-        marginTop: 5,
-    },
-    totalDistanceText: {
-        fontSize: 14,
-        color: 'black',
-        marginTop: 5,
-    },
-    averageSpeedText: {
-        fontSize: 14,
-        color: 'black',
-        marginTop: 5,
+        marginTop: 15,
     },
     lifetimeStatsText: {
         fontSize: 18,

@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
-import NavBar from './Navbar'; // Import the Navbar
 
 const BikeUnlockScreen = ({ navigation }) => {
     const handleLockPress = () => {
@@ -17,11 +16,6 @@ const BikeUnlockScreen = ({ navigation }) => {
             </TouchableOpacity>
             <Text style={styles.infoText}>Your bike is:</Text>
             <Text style={styles.statusText}>Free to move</Text>
-            
-      
-            <View style={styles.navBar}>
-                <NavBar />
-            </View>
         </View>
     );
 };
@@ -53,13 +47,7 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: 'bold',
         color: 'green',
-    },
-    navBar: {
-        position: 'absolute',
-        bottom: 0,
-        paddingBottom: 20,
-
-    },
+    }
 });
 
 export default BikeUnlockScreen;

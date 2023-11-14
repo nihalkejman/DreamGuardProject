@@ -1,5 +1,6 @@
 import { createContext, useEffect, useContext, useRef, useState } from "react";
 import { BluetoothManager } from "./BluetoothManager";
+import { MockBluetoothManager } from "./MockBluetoothManager";
 
 const BLEContext = createContext(undefined);
 
@@ -12,7 +13,8 @@ export function useBLEContext() {
     return value;
 }
 
-const ble = new BluetoothManager();
+// const ble = new BluetoothManager();
+const ble = new MockBluetoothManager();
 
 export default function BLEContextProvider({ children }) {
 

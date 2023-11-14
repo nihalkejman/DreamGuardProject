@@ -32,6 +32,7 @@ const styles = StyleSheet.create({
         marginBottom: 16,
         width: 75,
         height: 75,
+        borderRadius: 12
     },
     header: {
         fontSize: 24,

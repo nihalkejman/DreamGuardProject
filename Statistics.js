@@ -1,11 +1,12 @@
 import React from 'react';
-import { View, Text, StyleSheet, FlatList, ScrollView } from 'react-native';
-import NavBar from './Navbar';
+import { View, Text, StyleSheet, FlatList } from 'react-native';
 import { useSessions } from './services/BikeboxHooks';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useBLEContext } from './services/BLEContext';
 
 const StatsScreen = () => {
   const data = useSessions();
+  const { connectedDevice } = useBLEContext();
   
   const getTitle = (session) => {
     let diff = new Date().valueOf() - (session.end_time * 1000);
@@ -51,35 +52,35 @@ const StatsScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.topSpace} />
+      <View style={{ width: '100%', padding: 25 }}>
+        <Text style={styles.titleText}>Sessions</Text>
+        <Text style={styles.subtitleText}>{ connectedDevice.localName }</Text>
+      </View>
       <FlatList
         data={data}
         keyExtractor={(item) => item.id}
         renderItem={renderItem}
         contentContainerStyle={styles.listContainer}
       />
-      
-      <NavBar />
     </SafeAreaView>
     //nihal
   );
 };
 
 const styles = StyleSheet.create({
+  titleText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    width: '100%',
+    textAlign: 'left'
+  },
+  subtitleText: {
+      color: '#BCC1CA'
+  },
   container: {
     flex: 1,
     alignItems: 'stretch',
     backgroundColor: '#E7EEF6'
-  },
-  stats: {
-    paddingBottom: 20,
-    paddingLeft: 15,
-    paddingTop: 10,
-    backgroundColor: 'white',
-    borderWidth: 0.5,
-    borderColor: 'black',
-    borderRadius: 10,
-    margin: 10,
   },
   distance: {
     fontSize: 20,
@@ -101,9 +102,7 @@ const styles = StyleSheet.create({
   },
   stats: {
     backgroundColor: 'white',
-    borderRadius: 10,
-    borderWidth: 0.5,
-    borderColor: 'black',
+    borderRadius: 8,
     marginBottom: 10,
     padding: 16,
 
