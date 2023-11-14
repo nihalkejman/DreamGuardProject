@@ -4,10 +4,18 @@ import { ScrollView } from 'react-native-web';
 import { useNavigation } from '@react-navigation/native';
 import NavBar from './Navbar';
 
-const Stats = () => {
+
+/*const screen = () => {
+  return(
+
+  )
+}*/
+
+
+const stats = () => {
   return (
     <View style={styles.container}>
-      <ScrollView style = {styles.entry}>
+      <container style = {styles.stats}>
         <View className="date">
           <View className="day">31st October</View>
           <View className="time">13:00-13:55</View>
@@ -20,7 +28,7 @@ const Stats = () => {
           <View>Average speed: 15mph</View>
           <View>Ride time: 55 mins</View>
         </View>
-      </ScrollView>
+      </container>
       <View style={styles.bottomNavBar}>
                 <NavBar />
             </View>
@@ -35,21 +43,20 @@ const styles = StyleSheet.create({
   container: {
     height: '100%'
   },
-  entry:{
+
+  stats:{
     paddingBottom: 20,
     paddingLeft: 15,
     paddingTop: 10,
     align: 'center',
     backgroundColor: 'white',
-    border: 2,    //neither will these border settings :)
+    width: '12.5%',
+    borderStyle: 'solid',
+    borderWidth: 0.5,
     borderColor: 'black',
     borderRadius: 10,
     margin: 10,
     fontFamily: 'GillSans, GillSansMT, Calibri, TrebuchetMS, sansSerif',
-  },
-
-  inner:{
-    padding: 5,
   },
 
   distance:{
@@ -80,4 +87,4 @@ const styles = StyleSheet.create({
 
 })
 
-export default Stats;
+export default stats;

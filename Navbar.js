@@ -7,16 +7,21 @@ const NavBar = () => {
     const navigation = useNavigation();
 
     const navigateToHome = () => {
-        navigation.navigate('Home'); // Navigate to the "Home" screen
+        navigation.navigate('Home');    //Navigate to the "Home" screen
     };
 
     const navigateToLock = () => {
-        navigation.navigate('Lock'); // Navigate to the "Lock" screen
+        navigation.navigate('Lock');    //Navigate to the "Lock" screen
     };
 
     const navigateToSettings = () => {
         navigation.navigate('Setting');
     };
+
+    const navigateToStats = () => {
+        navigation.navigate('Statistics');  //Nav to stats
+    }
+
 
     return (
         <View style={styles.navBar}>
@@ -26,7 +31,7 @@ const NavBar = () => {
             <TouchableOpacity onPress={navigateToLock}>
                 <Icon name="lock" size={40} color="black" style={styles.icon} />
             </TouchableOpacity>
-            <TouchableOpacity onPress={navigateToSettings}>
+            <TouchableOpacity onPress={navigateToStats}>
                 <Icon name="bar-chart" size={40} color="black" style={styles.icon} />
             </TouchableOpacity>
             <TouchableOpacity onPress={navigateToSettings}>
