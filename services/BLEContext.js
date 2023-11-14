@@ -106,7 +106,8 @@ export default function BLEContextProvider({ children }) {
     }
     const getSessions = async() => {
         try {
-            return await ble.readChar('SESSIONS_LIST');
+            const s = await ble.readChar('SESSIONS_LIST');
+            return JSON.parse(s);
         } catch(err) {
             console.error(err);
             return null;

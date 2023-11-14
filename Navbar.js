@@ -45,11 +45,9 @@ const styles = StyleSheet.create({
     navBar: {
         flexDirection: 'row',
         alignItems: 'center',
+        justifyContent: 'space-evenly',
         backgroundColor: '#E7EEF6',
-        paddingHorizontal: 10,
-    },
-    icon: {
-        marginHorizontal: 35,
+        width: '100%'
     },
 });
 

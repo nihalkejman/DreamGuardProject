@@ -141,3 +141,25 @@ export function useTotalAverageSpeed() {
 
     return Number(value).toFixed(1);
 }
+
+export function useSessions() {
+    const { getSessions } = useBLEContext();
+    const [ sessions, setSessions ] = useState([]);
+
+    useEffect(() => {
+        (async() => {
+            const list = await getSessions();
+            
+            const arr = Object.entries(list).map(([ id, session ]) => {
+                return {
+                    ...session,
+                    id
+                }
+            }).sort((a, b) => b.id - a.id);
+
+            setSessions(arr);
+        })();
+    }, []);
+
+    return sessions;
+}

@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, ScrollView, Button, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import NavBar from './Navbar'; // Import the NavBar 
 import { useBLEContext } from './services/BLEContext';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useAverageSpeed, useCurrentSpeed, useSessionStatus, useTotalAverageSpeed, useTotalRideTime } from './services/BikeboxHooks';
+import { useAverageSpeed, useCurrentSpeed, useSessionStatus, useTopSpeed, useTotalAverageSpeed, useTotalRideTime } from './services/BikeboxHooks';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const HomeScreen = () => {
@@ -16,6 +15,7 @@ const HomeScreen = () => {
     const { status, toggleStatus, getRideTime } = useSessionStatus();
     const totalRideTime = useTotalRideTime();
     const totalAverageSpeed = useTotalAverageSpeed();
+    const topSpeed = useTopSpeed();
 
     return (
         <ScrollView contentContainerStyle={[styles.container, { paddingTop: insets.top, paddingLeft: insets.left, paddingRight: insets.right, paddingBottom: insets.bottom }]}>
@@ -47,6 +47,11 @@ const HomeScreen = () => {
                                 <Text style={styles.averageSpeedText}>Average Speed</Text>
                             </View>
                             <View style={styles.statsSquare}>
+                                <Text style={styles.squareText}>{ topSpeed }</Text>
+                                <Text style={styles.mphText}>mph</Text>
+                                <Text style={styles.averageSpeedText}>Top Speed</Text>
+                            </View>
+                            <View style={styles.statsSquare}>
                                 <Text style={styles.squareText}>{ getRideTime() }</Text>
                                 <Text style={styles.mphText}>minutes</Text>
                                 <Text style={styles.averageSpeedText}>Ride time</Text>
@@ -71,7 +76,7 @@ const HomeScreen = () => {
                 </View>
             </View>
         
-            <NavBar style={styles.navBar} />
+            <NavBar />
         </ScrollView>
     );
 };
@@ -173,10 +178,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         marginTop: 10,
+        flexWrap: 'wrap',
+        gap: 30
     },
     statsSquare: {
-        width: 100,
-        height: 100,
+        width: 120,
+        height: 120,
         backgroundColor: 'white',
         justifyContent: 'center',
         alignItems: 'center',
@@ -186,11 +193,6 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.2,
         elevation: 5,
-    },
-    navBar: {
-        position: 'absolute',
-        bottom: 0,
-        width: '100%',
     },
 });
 
