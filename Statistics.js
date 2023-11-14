@@ -1,90 +1,62 @@
 import React from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
-import { ScrollView } from 'react-native-web';
-import { useNavigation } from '@react-navigation/native';
+import { View, Text, StyleSheet } from 'react-native';
 import NavBar from './Navbar';
 
-
-/*const screen = () => {
-  return(
-
-  )
-}*/
-
-
-const stats = () => {
+const Stats = () => {
   return (
     <View style={styles.container}>
-      <container style = {styles.stats}>
-        <View className="date">
-          <View className="day">31st October</View>
-          <View className="time">13:00-13:55</View>
+      <View style={styles.stats}>
+        <View style={styles.date}>
+          <Text style={{ fontWeight: 'bold' }}>31st October</Text>
+          <Text>13:00-13:55</Text>
         </View>
-        <View className="distance">
-          <Text className="km_readout">16km ride</Text>
+        <View style={styles.distance}>
+          <Text style={styles.km_readout}>16km ride</Text>
         </View>
-        <View className="details">
-          <View>Top speed: 28mph</View>
-          <View>Average speed: 15mph</View>
-          <View>Ride time: 55 mins</View>
+        <View style={styles.details}>
+          <Text>Top speed: 28mph</Text>
+          <Text>Average speed: 15mph</Text>
+          <Text>Ride time: 55 mins</Text>
         </View>
-      </container>
-      <View style={styles.bottomNavBar}>
-                <NavBar />
-            </View>
+      </View>
+      <View style={styles.navBar}>
+        <NavBar />
+      </View>
     </View>
-
   );
 };
 
-
-
 const styles = StyleSheet.create({
   container: {
-    height: '100%'
+    flex: 1,
   },
-
-  stats:{
+  stats: {
     paddingBottom: 20,
     paddingLeft: 15,
     paddingTop: 10,
-    align: 'center',
     backgroundColor: 'white',
-    width: '12.5%',
-    borderStyle: 'solid',
     borderWidth: 0.5,
     borderColor: 'black',
     borderRadius: 10,
     margin: 10,
-    fontFamily: 'GillSans, GillSansMT, Calibri, TrebuchetMS, sansSerif',
   },
-
-  distance:{
-    fontSize: 2,
+  distance: {
+    fontSize: 20,
   },
-
-  km_readout:{
+  km_readout: {
     fontWeight: 'bold',
   },
-
-  date:{
-    float: 'right',
-    paddingLeft: 20,
-    paddingBottom: 10,
+  date: {
     paddingRight: 10,
   },
-
-  details:{
+  details: {
     paddingTop: 10,
   },
-
-  bottomNavBar: {
+  navBar: {
     position: 'absolute',
     bottom: 0,
-    width: '100%',
-},
-  
+    paddingBottom: 20,
+  },
+});
 
-})
-
-export default stats;
+export default Stats;
