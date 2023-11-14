@@ -66,6 +66,7 @@ const StatsScreen = () => {
       />
       
       <View style={styles.bottomNavBar}>
+
         <NavBar />
       </View>
     </View>
@@ -77,6 +78,29 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'stretch',
+
+
+  },
+  stats: {
+    paddingBottom: 20,
+    paddingLeft: 15,
+    paddingTop: 10,
+    backgroundColor: 'white',
+    borderWidth: 0.5,
+    borderColor: 'black',
+    borderRadius: 10,
+    margin: 10,
+  },
+  distance: {
+    fontSize: 20,
+  },
+  km_readout: {
+    fontWeight: 'bold',
+  },
+  date: {
+    paddingRight: 10,
+
+    alignItems: 'center',
     justifyContent: 'center',
   },
   topSpace: {
@@ -106,9 +130,16 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 18,
     marginBottom: 8,
+
   },
   details: {
     paddingTop: 10,
+  },
+
+  navBar: {
+    position: 'absolute',
+    bottom: 0,
+    paddingBottom: 20,
   },
   footer: {
     flexDirection: 'row',
