@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     marginBottom: 10,
     padding: 16,
-    alignSelf: 'stretch',
+
   },
   header: {
     flexDirection: 'row',
@@ -124,12 +124,6 @@ const styles = StyleSheet.create({
   },
   details: {
     paddingTop: 10,
-  },
-
-  navBar: {
-    position: 'absolute',
-    bottom: 0,
-    width: '100%'
   },
   footer: {
     flexDirection: 'row',
