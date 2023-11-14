@@ -8,7 +8,10 @@ const BLE_IDS = Object.freeze({
     SPEED: 'bd34ee7a-c56b-4fa1-a633-d2933276e7d4',
     AVERAGE_SPEED: '86badc9c-3549-49f4-8619-5f452bda294f',
     SESSION_STATUS: '4d46fd27-d2bd-4b45-9de7-4e13bb266033',
-    SESSIONS_LIST: '81e555da-c363-465c-a8c6-b2a60455f747'
+    SESSIONS_LIST: '81e555da-c363-465c-a8c6-b2a60455f747',
+    TOTAL_RIDE_TIME: "ad335ed2-f8a9-45c1-a8d8-4c8aec38bc3c",
+    TOTAL_AVG_SPEED: "3b4c64f8-0024-4add-b04f-24da98e54440",
+    TOP_SPEED: "521bc2b9-f56d-47a7-9a1d-5eff32bef48c"
 });
 
 export class BluetoothManager extends EventEmitter {
@@ -97,6 +100,7 @@ export class BluetoothManager extends EventEmitter {
         // Proceed with connection.
         this.emit('device-connect', device);
         this.connectedDevice = await device.connect();
+        this.connectedDevice.localName = device.localName;
 
         await this.connectedDevice.discoverAllServicesAndCharacteristics();
         this.emit('device-connected', this.connectedDevice);

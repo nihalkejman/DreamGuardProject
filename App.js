@@ -42,6 +42,7 @@ function Routes() {
                         </>
                     )
                 }
+
             </Stack.Navigator>
         </NavigationContainer>
     );

@@ -27,8 +27,11 @@ export default function BLEContextProvider({ children }) {
     useEffect(() => {
         const deviceScanCb = (device) => {
             setScannedDevices(prev => {
-                const exists = prev.findIndex(d => d.id === device.id) !== -1;
-                if (exists) return prev;
+                const idx = prev.findIndex(d => d.id === device.id);
+                if (idx !== -1) {
+                    if (device.rssi) prev[idx].rssi = device.rssi;
+                    return [ ...prev ];
+                };
 
                 return [
                     ...prev,
@@ -109,6 +112,30 @@ export default function BLEContextProvider({ children }) {
             return null;
         }
     }
+    const getTotalRideTime = async() => {
+        try {
+            return await ble.readChar('TOTAL_RIDE_TIME');
+        } catch(err) {
+            console.error(err);
+            return null;
+        }
+    }
+    const getTotalAverageSpeed = async() => {
+        try {
+            return await ble.readChar('TOTAL_AVG_SPEED');
+        } catch(err) {
+            console.error(err);
+            return null;
+        }
+    }
+    const getTopSpeed = async() => {
+        try {
+            return await ble.readChar('TOP_SPEED');
+        } catch(err) {
+            console.error(err);
+            return null;
+        }
+    }
     
     const setSessionStatus = async(enabled) => {
         await ble.writeChar('SESSION_STATUS', enabled ? '1' : '0');
@@ -128,7 +155,10 @@ export default function BLEContextProvider({ children }) {
             getAverageSpeed,
             getSessionStatus,
             getSessions,
-            setSessionStatus
+            setSessionStatus,
+            getTotalRideTime,
+            getTotalAverageSpeed,
+            getTopSpeed
         }}>
             {children}
         </BLEContext.Provider>

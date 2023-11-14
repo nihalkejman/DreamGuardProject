@@ -17,14 +17,19 @@ export default function DeviceDiscovery() {
     }
 
     const calculateDistance = (device) => {
-        return Math.pow(10, (( device.txPowerLevel - device.rssi ) / 20))
+        const dist = Math.trunc(Math.pow(10, (( -31 - device.rssi ) / 40)));
+        
+        if (dist <= 5) {
+            return '<5m';
+        }
+        return `${dist}m`
     }
 
     const renderItem = ({ item }) => {
         return (
             <TouchableOpacity onPress={() => handleDevicePress(item)} style={styles.deviceItem}>
                 <Text style={styles.itemText}>{item.localName}</Text>
-                <Text style={styles.itemSub}>{ calculateDistance(item) }m</Text>
+                <Text style={styles.itemSub}>{ calculateDistance(item) }</Text>
             </TouchableOpacity>
         );
     };
