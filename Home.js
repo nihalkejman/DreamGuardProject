@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, Button } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import NavBar from './Navbar'; // Import the NavBar component
+import NavBar from './Navbar'; // Import the NavBar 
 
 const HomeScreen = () => {
     const navigation = useNavigation();
@@ -16,7 +16,7 @@ const HomeScreen = () => {
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
-            {/* Rest of your existing code */}
+       
             <View style={styles.buttonContainer}>
                 <Button
                     title="Start Session"
@@ -48,7 +48,7 @@ const HomeScreen = () => {
                 </View>
             </View>
 
-            {/* Include the NavBar component at the bottom */}
+          
             <NavBar style={styles.navBar} />
         </ScrollView>
     );

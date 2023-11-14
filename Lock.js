@@ -22,6 +22,7 @@ const BikeLockScreen = ({ navigation }) => {
         </View>
     );
 };
+//l
 
 const styles = StyleSheet.create({
     container: {
