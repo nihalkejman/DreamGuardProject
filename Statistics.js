@@ -57,24 +57,30 @@ const StatsScreen = () => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.topSpace} />
       <FlatList
         data={data}
         keyExtractor={(item) => item.id}
         renderItem={renderItem}
         contentContainerStyle={styles.listContainer}
       />
+      
       <View style={styles.bottomNavBar}>
         <NavBar />
       </View>
     </View>
+    //nihal
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
+    alignItems: 'stretch',
     justifyContent: 'center',
+  },
+  topSpace: {
+    height: 20,
   },
   listContainer: {
     paddingHorizontal: 16,
@@ -86,6 +92,7 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     marginBottom: 10,
     padding: 16,
+    alignSelf: 'stretch',
   },
   header: {
     flexDirection: 'row',
@@ -119,3 +126,4 @@ const styles = StyleSheet.create({
 });
 
 export default StatsScreen;
+
