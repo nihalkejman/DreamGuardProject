@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
-import NavBar from './Navbar'; // Import the NavBar component
+import NavBar from './Navbar'; // Import the Navbar
 
 const BikeUnlockScreen = ({ navigation }) => {
     const handleLockPress = () => {
-        // Navigate to the "Lock" screen when the lock button is pressed
+        // When lock button pressed go to lock screen
         navigation.navigate('Lock');
     };
 
@@ -18,8 +18,8 @@ const BikeUnlockScreen = ({ navigation }) => {
             <Text style={styles.infoText}>Your bike is:</Text>
             <Text style={styles.statusText}>Free to move</Text>
             
-            {/* Move the NavBar component to the bottom */}
-            <View style={styles.bottomNavBar}>
+      
+            <View style={styles.navBar}>
                 <NavBar />
             </View>
         </View>
@@ -54,10 +54,11 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: 'green',
     },
-    bottomNavBar: {
+    navBar: {
         position: 'absolute',
         bottom: 0,
-        width: '100%',
+        paddingBottom: 20,
+
     },
 });
 
