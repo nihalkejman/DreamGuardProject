@@ -1,57 +1,93 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, Button } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import NavBar from './NavBar'; // Import the NavBar 
+import React from 'react';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { useBLEContext } from './services/BLEContext';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useAverageSpeed, useCurrentSpeed, useSessionStatus, useTopSpeed, useTotalAverageSpeed, useTotalRideTime } from './services/BikeboxHooks';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const HomeScreen = () => {
-    const navigation = useNavigation();
+    const insets = useSafeAreaInsets();
 
-    const startSession = () => {
-        // Navigate to the "HomeSession" screen when the "Start Session" button is pressed
-        navigation.navigate('HomeSession');
-    };
+    const { connectedDevice } = useBLEContext();
+    const speed = useCurrentSpeed();
+    const averageSpeed = useAverageSpeed();
+    const { status, toggleStatus, getRideTime } = useSessionStatus();
+    const totalRideTime = useTotalRideTime();
+    const totalAverageSpeed = useTotalAverageSpeed();
+    const topSpeed = useTopSpeed();
 
     return (
-        <ScrollView contentContainerStyle={styles.container}>
-       
-            <View style={styles.buttonContainer}>
-                <Button
-                    title="Start Session"
-                    onPress={startSession}
-                    color={styles.startSessionButton.color}
-                />
+        <ScrollView contentContainerStyle={[styles.container, { paddingTop: insets.top, paddingLeft: insets.left, paddingRight: insets.right, paddingBottom: insets.bottom }]}>
+            <View style={{ width: '100%', padding: 25 }}>
+                <Text style={styles.titleText}>Home</Text>
+                <Text style={styles.subtitleText}>{ connectedDevice.localName }</Text>
             </View>
+    
+            <TouchableOpacity
+                style={[styles.buttonContainer, status ? styles.enabledButton : styles.disabledButton]}
+                onPress={toggleStatus}
+            >
+                <MaterialCommunityIcons name={status ? "stop-circle-outline" : "bike-fast"} size={24} color={status ? styles.enabledButton.color : styles.disabledButton.color} />
+                <Text style={[styles.startSessionText, status ? styles.enabledButton : styles.disabledButton]}>{status ? 'Stop' : 'Start'} Session</Text>
+            </TouchableOpacity>
 
-            <View style={styles.squareContainer}>
-                <View style={styles.square}>
-                    <Text style={styles.squareText}>10</Text>
+            <View style={styles.statsContainer}>
+                <View style={styles.statsSquare}>
+                    <Text style={styles.squareText}>{ speed }</Text>
                     <Text style={styles.mphText}>mph</Text>
-                    <Text style={styles.currentSpeedText}>Current Speed</Text>
+                    <Text style={styles.unitText}>Current Speed</Text>
                 </View>
+                {
+                    status && (
+                        <>
+                            <View style={styles.statsSquare}>
+                                <Text style={styles.squareText}>{ averageSpeed }</Text>
+                                <Text style={styles.mphText}>mph</Text>
+                                <Text style={styles.unitText}>Average Speed</Text>
+                            </View>
+                            <View style={styles.statsSquare}>
+                                <Text style={styles.squareText}>{ topSpeed }</Text>
+                                <Text style={styles.mphText}>mph</Text>
+                                <Text style={styles.unitText}>Top Speed</Text>
+                            </View>
+                            <View style={styles.statsSquare}>
+                                <Text style={styles.squareText}>{ getRideTime() }</Text>
+                                <Text style={styles.mphText}>minutes</Text>
+                                <Text style={styles.unitText}>Ride time</Text>
+                            </View>
+                        </>
+                    )
+                }
             </View>
 
             <Text style={styles.lifetimeStatsText}>Lifetime Stats</Text>
 
             <View style={styles.statsContainer}>
                 <View style={styles.statsSquare}>
-                    <Text style={styles.squareText}>67</Text>
-                    <Text style={styles.milesText}>miles</Text>
-                    <Text style={styles.totalDistanceText}>Total Distance</Text>
+                    <Text style={styles.squareText}>{ totalRideTime }</Text>
+                    <Text style={styles.mphText}>minutes</Text>
+                    <Text style={styles.unitText}>Total Ride Time</Text>
                 </View>
                 <View style={styles.statsSquare}>
-                    <Text style={styles.squareText}>20</Text>
+                    <Text style={styles.squareText}>{ totalAverageSpeed }</Text>
                     <Text style={styles.mphText}>mph</Text>
-                    <Text style={styles.averageSpeedText}>Average Speed</Text>
+                    <Text style={styles.unitText}>Average Speed</Text>
                 </View>
             </View>
-
-          
-            <NavBar style={styles.navBarHome} />
         </ScrollView>
     );
 };
 
 const styles = StyleSheet.create({
+    titleText: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        width: '100%',
+        textAlign: 'left'
+    },
+    subtitleText: {
+        color: '#BCC1CA'
+    },
     container: {
         flex: 1,
         alignItems: 'center',
@@ -61,58 +97,41 @@ const styles = StyleSheet.create({
         backgroundColor: '#E7EEF6',
     },
     buttonContainer: {
-        backgroundColor: 'black',
         borderRadius: 10,
-        padding: 10,
-        marginBottom: 20,
-        marginTop: 150,
-    },
-    startSessionButton: {
-        color: 'white',
-    },
-    squareContainer: {
-        alignItems: 'center',
-        marginTop: 10,
-    },
-    square: {
-        width: 100,
-        height: 100,
-        backgroundColor: 'white',
+        padding: 13,
+        marginBottom: 10,
+        width: '85%',
+        flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 10,
-        borderRadius: 15,
-        shadowColor: 'black',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.2,
-        elevation: 5,
+        borderWidth: 2
+    },
+    enabledButton: {
+        backgroundColor: 'transparent',
+        borderColor: 'crimson',
+        color: 'crimson'
+    },
+    disabledButton: {
+        backgroundColor: 'black',
+        borderColor: 'black',
+        color: 'white'
+    },
+    startSessionText: {
+        marginLeft: 15,
+        fontSize: 18,
     },
     squareText: {
-        fontSize: 24,
+        fontSize: 30,
         fontWeight: 'bold',
     },
     mphText: {
         fontSize: 12,
         color: 'grey',
     },
-    milesText: {
-        fontSize: 12,
-        color: 'grey',
-    },
-    currentSpeedText: {
+    unitText: {
         fontSize: 14,
         color: 'black',
-        marginTop: 5,
-    },
-    totalDistanceText: {
-        fontSize: 14,
-        color: 'black',
-        marginTop: 5,
-    },
-    averageSpeedText: {
-        fontSize: 14,
-        color: 'black',
-        marginTop: 5,
+        marginTop: 15,
     },
     lifetimeStatsText: {
         fontSize: 18,
@@ -123,10 +142,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         marginTop: 10,
+        flexWrap: 'wrap',
+        gap: 30
     },
     statsSquare: {
-        width: 100,
-        height: 100,
+        width: 120,
+        height: 120,
         backgroundColor: 'white',
         justifyContent: 'center',
         alignItems: 'center',
@@ -136,11 +157,6 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.2,
         elevation: 5,
-    },
-    navBar: {
-        position: 'absolute',
-        bottom: 0,
-        width: '100%',
     },
 });
 

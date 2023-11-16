@@ -1,95 +1,86 @@
 import React from 'react';
 import { View, Text, StyleSheet, FlatList } from 'react-native';
-import NavBar from './NavBar';
+import { useSessions } from './services/BikeboxHooks';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useBLEContext } from './services/BLEContext';
 
 const StatsScreen = () => {
+  const data = useSessions();
+  const { connectedDevice } = useBLEContext();
+  
+  const getTitle = (session) => {
+    let diff = new Date().valueOf() - (session.end_time * 1000);
+    diff /= (1000*60);
+    
+    return `${Math.trunc(diff)} minutes ago`
+  }
+  const getRideTime = (session) => {
+    const dur = session.end_time - session.start_time;
+    return `${(dur / 60).toFixed(1)} minutes`;
+  }
+  const getTimeText = (session) => {
+    const start = new Date(session.start_time * 1000);
+    const end = new Date(session.end_time * 1000);
+
+    const startStr = `${start.getHours().toString().padStart(2, '0')}:${start.getMinutes().toString().padStart(2, '0')}`;
+    const endStr = `${end.getHours().toString().padStart(2, '0')}:${end.getMinutes().toString().padStart(2, '0')}`;
+
+    if (startStr === endStr) return `at ${endStr}`;
+    return `${startStr} - ${endStr}`
+  }
   const formatDate = (date) => {
     const options = { month: 'long', day: 'numeric' };
-    return new Date(date).toLocaleDateString(undefined, options);
+    return new Date(date * 1000).toLocaleDateString(undefined, options);
   };
-
-  const data = [
-    {
-      id: '1',
-      date: '2023-10-21',
-      distance: '16km ride',
-      topSpeed: '28mph',
-      averageSpeed: '15mph',
-      rideTime: '55 mins',
-      time: '13:00-13:55',
-    },
-    {
-      id: '2',
-      date: '2023-10-22',
-      distance: '20km ride',
-      topSpeed: '30mph',
-      averageSpeed: '18mph',
-      rideTime: '45 mins',
-      time: '14:00-14:45',
-    },
-    {
-      id: '3',
-      date: '2023-10-23',
-      distance: '12km ride',
-      topSpeed: '25mph',
-      averageSpeed: '12mph',
-      rideTime: '60 mins',
-      time: '12:30-13:30',
-    },
-  ];
 
   const renderItem = ({ item }) => (
     <View style={styles.stats}>
       <View style={styles.header}>
-        <Text style={styles.dateText}>{formatDate(item.date)}</Text>
+        <Text style={styles.dateText}>{formatDate(item.start_time)}</Text>
       </View>
-      <Text style={styles.kmReadout}>{item.distance}</Text>
+      <Text style={styles.kmReadout}>{getTitle(item)}</Text>
       <View style={styles.details}>
-        <Text>Top speed: {item.topSpeed}</Text>
-        <Text>Average speed: {item.averageSpeed}</Text>
-        <Text>Ride time: {item.rideTime}</Text>
+        <Text>Top speed: {item.top_speed} mph</Text>
+        <Text>Average speed: {item.average_speed || 0} mph</Text>
+        <Text>Ride time: {getRideTime(item)}</Text>
       </View>
       <View style={styles.footer}>
-        <Text style={styles.timeText}>{item.time}</Text>
+        <Text style={styles.timeText}>{getTimeText(item)}</Text>
       </View>
     </View>
   );
 
   return (
-    <View style={styles.container}>
-      <View style={styles.topSpace} />
+    <SafeAreaView style={styles.container}>
+      <View style={{ width: '100%', padding: 25 }}>
+        <Text style={styles.titleText}>Sessions</Text>
+        <Text style={styles.subtitleText}>{ connectedDevice.localName }</Text>
+      </View>
       <FlatList
         data={data}
         keyExtractor={(item) => item.id}
         renderItem={renderItem}
         contentContainerStyle={styles.listContainer}
       />
-      
-      <View style={styles.navBarStats}>
-
-        <NavBar />
-      </View>
-    </View>
+    </SafeAreaView>
     //nihal
   );
 };
 
 const styles = StyleSheet.create({
+  titleText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    width: '100%',
+    textAlign: 'left'
+  },
+  subtitleText: {
+      color: '#BCC1CA'
+  },
   container: {
     flex: 1,
     alignItems: 'stretch',
-
-
-  },
-  stats: {
-    paddingBottom: 20,
-    paddingLeft: 15,
-    paddingTop: 10,
-    backgroundColor: 'white',
-    borderWidth: 0.5,
-    borderColor: 'black',
-    borderRadius: 10,
-    margin: 10,
+    backgroundColor: '#E7EEF6'
   },
   distance: {
     fontSize: 20,
@@ -111,12 +102,10 @@ const styles = StyleSheet.create({
   },
   stats: {
     backgroundColor: 'white',
-    borderRadius: 10,
-    borderWidth: 0.5,
-    borderColor: 'black',
+    borderRadius: 8,
     marginBottom: 10,
     padding: 16,
-    alignSelf: 'stretch',
+
   },
   header: {
     flexDirection: 'row',
@@ -135,12 +124,6 @@ const styles = StyleSheet.create({
   details: {
     paddingTop: 10,
   },
-
-  navBar: {
-    position: 'absolute',
-    bottom: 0,
-    paddingBottom: 20,
-  },
   footer: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
@@ -148,13 +131,7 @@ const styles = StyleSheet.create({
   },
   timeText: {
     fontWeight: 'bold',
-  },
-  bottomNavBar: {
-    position: 'absolute',
-    bottom: 0,
-    width: '100%',
-  },
+  }
 });
 
 export default StatsScreen;
-

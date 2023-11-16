@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
-import NavBar from './NavBar'; // Import the NavBar
+import { Text, View, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useBLEContext } from './services/BLEContext';
 
 const SettingScreen = ({ navigation }) => {
     const settingsOptions = [
@@ -20,34 +21,43 @@ const SettingScreen = ({ navigation }) => {
         );
     };
 
-    return (
-        <View style={styles.container}>
-            <Text style={styles.header}>Settings</Text>
-            <FlatList data={settingsOptions} renderItem={renderItem} keyExtractor={(item) => item.title} />
+    const { connectedDevice } = useBLEContext();
 
-            {}
-            <View style={styles.navBarSettings}>
-                <NavBar style={styles.centered} />
+    return (
+        <SafeAreaView style={styles.container}>
+            <View style={{ width: '100%', padding: 25 }}>
+                <Text style={styles.titleText}>Settings</Text>
+                <Text style={styles.subtitleText}>{ connectedDevice.localName }</Text>
             </View>
-        </View>
+            <FlatList
+                data={settingsOptions}
+                renderItem={renderItem}
+                keyExtractor={(item) => item.title}
+            />
+        </SafeAreaView>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#f3f3f3',
-        padding: 20,
+        backgroundColor: '#E7EEF6'
     },
-    header: {
+    titleText: {
         fontSize: 24,
         fontWeight: 'bold',
-        marginBottom: 20,
+        width: '100%',
+        textAlign: 'left'
+    },
+    subtitleText: {
+        color: '#BCC1CA'
     },
     itemContainer: {
         borderBottomWidth: 1,
         borderBottomColor: '#ccc',
-        padding: 16,
+        paddingVertical: 20,
+        paddingHorizontal: 25,
+        backgroundColor: 'white'
     },
     itemText: {
         fontSize: 18,
