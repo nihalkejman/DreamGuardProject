@@ -1,11 +1,14 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+<<<<<<< HEAD
+import NavBar from './NavBar'; 
+=======
 import { useBLEContext } from './services/BLEContext';
 import { SafeAreaView } from 'react-native-safe-area-context';
+>>>>>>> e8d422666bfed658fad6034cd3cf4a10e49e4586
 
 const BikeLockScreen = ({ navigation }) => {
     const handleUnlockPress = () => {
-        // Navigate to the "Unlock" screen when the unlock button is pressed
         navigation.navigate('Unlock');
     };
 
@@ -25,10 +28,18 @@ const BikeLockScreen = ({ navigation }) => {
             <Text style={styles.trigger}>
                 Attempting to move it will trigger an alarm which can only be stopped from the app
             </Text>
+<<<<<<< HEAD
+
+            {/* Add NavBar at the bottom of the screen */}
+            <View style={styles.navBarLock}>
+                <NavBar style={styles.centered} />
+            </View>
+        </View>
+=======
         </SafeAreaView>
+>>>>>>> e8d422666bfed658fad6034cd3cf4a10e49e4586
     );
 };
-//l
 
 const styles = StyleSheet.create({
     container: {
@@ -65,6 +76,15 @@ const styles = StyleSheet.create({
         fontStyle: 'italic',
         color: 'grey',
         marginTop: 25
+    },
+    navBarLock: {
+        position: 'absolute',
+        bottom: 0,
+        width: '100%',
+    },
+    centered: {
+        justifyContent: 'center',
+        width: '100%',
     },
 });
 

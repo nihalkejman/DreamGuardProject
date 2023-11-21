@@ -7,12 +7,12 @@ const SettingScreen = ({ navigation }) => {
     const settingsOptions = [
         { title: 'Account', screenName: 'Account' },
         { title: 'Emergency Contact', screenName: 'EmergencyContact' },
-        { title: 'Data Privacy'  },
+        { title: 'Data Privacy' },
         { title: 'Help Centre' },
         { title: 'Privacy Policy' },
         { title: 'Logout' },
     ];
-//nihal 
+
     const renderItem = ({ item }) => {
         return (
             <TouchableOpacity onPress={() => navigation.navigate(item.screenName)} style={styles.itemContainer}>
@@ -61,6 +61,15 @@ const styles = StyleSheet.create({
     },
     itemText: {
         fontSize: 18,
+    },
+    navBarSettings: {
+        position: 'absolute',
+        bottom: 0,
+        width: '100%',
+    },
+    centered: {
+        justifyContent: 'center',
+        width: '100%',
     },
 });
 
