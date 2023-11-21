@@ -1,14 +1,28 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import sharedStyles from './Styles'; // Import shared styles
+import { useBLEContext } from './services/BLEContext';
+import { useNavigation } from '@react-navigation/native';
 
 export default function ProfileScreen() {
   const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [password, setPassword] = useState('');
 
-  const handleSaveChanges = () => {
-  
+  const { getUserName, setUserName } = useBLEContext();
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    (async() => {
+      const user = await getUserName() || '';
+      setName(user);
+    })();
+  }, []);
+
+  const handleSaveChanges = async () => {
+    const result = await setUserName(name);
+    if (result) {
+      Alert.alert('Saved successfully!');
+      navigation.navigate('SettingHome');
+    }
   };
 
   return (
@@ -19,23 +33,6 @@ export default function ProfileScreen() {
         onChangeText={text => setName(text)}
         value={name}
         placeholder="Enter your name"
-      />
-
-      <Text style={sharedStyles.title}>Phone</Text>
-      <TextInput
-        style={sharedStyles.contentInput}
-        onChangeText={text => setPhone(text)}
-        value={phone}
-        placeholder="Enter your phone number"
-      />
-
-      <Text style={sharedStyles.title}>Password</Text>
-      <TextInput
-        style={sharedStyles.contentInput}
-        onChangeText={text => setPassword(text)}
-        value={password}
-        secureTextEntry={true}
-        placeholder="Enter your password"
       />
 
       <Button title="Save Changes" onPress={handleSaveChanges} />

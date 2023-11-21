@@ -40,11 +40,15 @@ export class MockBluetoothManager extends EventEmitter {
         TOP_SPEED: () => this.getRandomSpeed(),
         TOTAL_RIDE_TIME: () => this.getRandomTime(),
         SESSION_STATUS: () => this.status,
-        SESSIONS_LIST: () => JSON.stringify(({
-            11: {"top_speed": 0, "avg_speed": 0, "start_time": 1699985085, "end_time": 1699985188},
-            10: {"top_speed": 0, "avg_speed": 0, "start_time": 1699985033, "end_time": 1699985080},
-            9: {"top_speed": 0, "avg_speed": 0, "start_time": 1699984922, "end_time": 1699984946}
-        })),
+        SESSIONS_LIST: () => {
+            // this.emit('device-disconnect', { reason: 'Device not found' })
+            return JSON.stringify(({
+                11: {"top_speed": 0, "avg_speed": 0, "start_time": 1699985085, "end_time": 1699985188},
+                10: {"top_speed": 0, "avg_speed": 0, "start_time": 1699985033, "end_time": 1699985080},
+                9: {"top_speed": 0, "avg_speed": 0, "start_time": 1699984922, "end_time": 1699984946}
+            }));
+        },
+        EMERGENCY_CONTACT: () => JSON.stringify({ emc_name: '', emc_phone: '', emc_msg: '' })
     };
 
     readChar(characteristic) {

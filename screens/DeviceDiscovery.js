@@ -85,7 +85,8 @@ const styles = StyleSheet.create({
         marginBottom: 20
     },
     spinner: {
-        marginTop: 100
+        marginTop: 100,
+        marginBottom: 50
     },
     spinnerText: {
         fontSize: 15,

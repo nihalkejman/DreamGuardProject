@@ -4,7 +4,7 @@
     "slug": "BikeBox",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logo.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
@@ -44,6 +44,11 @@
           "bluetoothAlwaysPermission": "Allow BikeBox to connect to bluetooth devices"
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "9a4a6e80-57b3-428a-8bc2-bc03ece7aca3"
+      }
+    }
   }
 }

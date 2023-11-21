@@ -1,9 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useBLEContext } from "./BLEContext";
+import { sendSMS } from "./SMS";
 
 export function useCurrentSpeed() {
     const { getSpeed } = useBLEContext();
     const [ speed, setSpeed ] = useState(0);
+
+    const prevSpeed = useRef(0);
+    const { sendSOS } = useBLEContext();
     
     useEffect(() => {
         let timeout;
@@ -12,19 +16,19 @@ export function useCurrentSpeed() {
             const val = await getSpeed();
             if (val) {
                 setSpeed(Number(val).toFixed(1));
-
-                if (speed > 15 && val < 5) {
-                    // TODO:
-                    console.error("CRASH????");
-                }
             }
-
             timeout = setTimeout(fn, 500);
         }
         fn();
-
         return () => clearTimeout(timeout);
     }, []);
+
+    useEffect(() => {
+        if (prevSpeed.current > 15 && speed < 5) {
+            sendSOS();
+        }
+        prevSpeed.current = speed;
+    }, [ speed ]);
 
     return speed;
 }

@@ -1,6 +1,8 @@
-import { createContext, useEffect, useContext, useRef, useState } from "react";
+import { createContext, useEffect, useContext, useState, useCallback } from "react";
 import { BluetoothManager } from "./BluetoothManager";
 import { MockBluetoothManager } from "./MockBluetoothManager";
+import { sendSMS } from "./SMS";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const BLEContext = createContext(undefined);
 
@@ -13,18 +15,74 @@ export function useBLEContext() {
     return value;
 }
 
-// const ble = new BluetoothManager();
-const ble = new MockBluetoothManager();
+const ble = new BluetoothManager();
+// const ble = new MockBluetoothManager();
 
 export default function BLEContextProvider({ children }) {
-
+    /**
+     * Device information
+     */
     const [ scannedDevices, setScannedDevices ] = useState([]);
-
-    const [ isLoading, setIsLoading ] = useState(false);
     const [ isConnecting, setIsConnecting ] = useState(false);
-
+    
     const [ connectedDevice, setConnectedDevice ] = useState();
     const [ connectionError, setConnectionError ] = useState();
+    const [ lastConnectedDevice, setLastConnectedDevice ] = useState();
+
+    /**
+     * Emergency contact states
+     */
+    const [ hasSMSSent, setHasSMSSent ] = useState(false);
+    const [ emergencyInfo, setEmergencyInfo ] = useState();
+
+    const reconnect = useCallback((deviceId, timeoutInSec, error) => {
+        let timeout;
+
+        const deviceListener = async (device) => {
+            if (device.id !== deviceId) return;
+
+            clearTimeout(timeout);
+            ble.removeListener('device-scan', deviceListener);
+            await connectToDevice(device);
+        };
+
+        // Try to reconnect
+        setConnectionError(error?.reason || undefined);
+        setIsConnecting(true);
+
+        ble.addListener('device-scan', deviceListener);
+        timeout = setTimeout(() => {
+            stopScan();
+            ble.removeListener('device-scan', deviceListener);
+
+            setIsConnecting(false);
+            setConnectionError(undefined);
+        }, timeoutInSec * 1000);
+
+        startScan();
+    }, [])
+
+    useEffect(() => {
+        (async() => {
+            const obj = await AsyncStorage.getItem('@last-connected-device');
+            if (obj) {
+                const device = JSON.parse(obj);
+                setLastConnectedDevice(device);
+                reconnect(device.id, 5, null);
+            }
+        })();
+    }, []);
+
+    useEffect(() => {
+        const disconnectCb = (error) => {
+            return reconnect(lastConnectedDevice?.id, 10, error);
+        }
+
+        ble.addListener('device-disconnect', disconnectCb);
+        return () => {
+            ble.removeListener('device-disconnect', disconnectCb);
+        }
+    }, [ lastConnectedDevice ]);
 
     useEffect(() => {
         const deviceScanCb = (device) => {
@@ -49,7 +107,9 @@ export default function BLEContextProvider({ children }) {
         const connectedCb = (device) => {
             setIsConnecting(false);
             setConnectedDevice(device);
+            updateLastConnectedDevice(device);
         }
+        
         
         ble.addListener('device-scan', deviceScanCb);
         ble.addListener('device-connect', connectCb);
@@ -62,20 +122,35 @@ export default function BLEContextProvider({ children }) {
         }
     }, []);
 
+    const updateLastConnectedDevice = async(device) => {
+        try {
+            const obj = {
+                id: device.id,
+                name: device.name,
+                localName: device.localName
+            };
+            setLastConnectedDevice(obj);
+            await AsyncStorage.setItem('@last-connected-device', JSON.stringify(obj));
+        } catch(err) {
+            console.error(err);
+        }
+    }
+
     const startScan = () => {
-        setIsLoading(true);
         ble.startScan();
     };
     
     const stopScan = () => {
-        setIsLoading(false);
         ble.stopScan();
     }
 
     const connectToDevice = async (device) => {
-        try {
-            setConnectionError(undefined);
+        try  {
+            stopScan();
             await ble.connectToDevice(device);
+            setConnectionError(undefined);
+            getEmergencyContact();
+            setScannedDevices([]);
         }
         catch(err) {
             setConnectionError(err.reason);
@@ -139,9 +214,65 @@ export default function BLEContextProvider({ children }) {
             return null;
         }
     }
+
+    const getEmergencyContact = async() => {
+        try {
+            const s = await ble.readChar('EMERGENCY_CONTACT');
+            const sos = JSON.parse(s);
+
+            setEmergencyInfo(sos);
+            return sos;
+        } catch(err) {
+            console.error(err);
+            return null;
+        }
+    }
+    const setEmergencyContact = async(data) => {
+        try {
+            await ble.writeChar('EMERGENCY_CONTACT', JSON.stringify(data));
+            getEmergencyContact();
+            return true;
+        } catch(err) {
+            console.error(err);
+            return false;
+        }
+    }
     
     const setSessionStatus = async(enabled) => {
-        await ble.writeChar('SESSION_STATUS', enabled ? '1' : '0');
+        try {
+            await ble.writeChar('SESSION_STATUS', enabled ? '1' : '0');
+            return true;
+        } catch(err) {
+            console.error(err);
+            return false;
+        }
+    }
+
+    const getUserName = async() => {
+        try {
+            return await ble.readChar('USER_NAME');
+        } catch(err) {
+            console.error(err);
+            return null;
+        }
+    }
+    const setUserName = async(value) => {
+        try {
+            await ble.writeChar('USER_NAME', value);
+            connectedDevice.localName = `${value}'s BikeBox`;
+            setScannedDevices(p => [...p]);
+            return true;
+        } catch(err) {
+            console.error(err);
+            return false;
+        }
+    }
+
+    const sendSOS = () => {
+        if (!hasSMSSent && emergencyInfo.emc_phone && emergencyInfo.emc_msg) {
+            sendSMS(emc_phone, emc_msg);
+            setHasSMSSent(true);
+        }
     }
 
     return (
@@ -149,11 +280,11 @@ export default function BLEContextProvider({ children }) {
             startScan,
             stopScan,
             connectToDevice,
-            isLoading,
             isConnecting,
             connectedDevice,
             scannedDevices,
             connectionError,
+            lastConnectedDevice,
             getSpeed,
             getAverageSpeed,
             getSessionStatus,
@@ -161,7 +292,12 @@ export default function BLEContextProvider({ children }) {
             setSessionStatus,
             getTotalRideTime,
             getTotalAverageSpeed,
-            getTopSpeed
+            getTopSpeed,
+            getEmergencyContact,
+            setEmergencyContact,
+            getUserName,
+            setUserName,
+            sendSOS
         }}>
             {children}
         </BLEContext.Provider>

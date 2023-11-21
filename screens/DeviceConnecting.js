@@ -4,18 +4,37 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function DeviceConnecting() {
 
-    const { connectedDevice } = useBLEContext();
+    const { connectedDevice, lastConnectedDevice } = useBLEContext();
 
     return (
         <SafeAreaView style={styles.container}>
             <Image source={require('../assets/logo.png')} style={styles.headerImage} />
             <Text style={styles.header}>
-                { connectedDevice.localName }
+                { connectedDevice?.localName ?? lastConnectedDevice?.localName }
             </Text>
 
             <View style={styles.spinner}>
                 <ActivityIndicator size='large' color='' />
                 <Text style={styles.spinnerText}>Connecting...</Text>
+            </View>
+        </SafeAreaView>
+    )
+}
+
+export function DeviceReconnecting() {
+    const { lastConnectedDevice, connectionError } = useBLEContext();
+
+    return (
+        <SafeAreaView style={styles.container}>
+            <Image source={require('../assets/logo.png')} style={styles.headerImage} />
+            <Text style={styles.header}>
+                { lastConnectedDevice?.localName }
+            </Text>
+
+            <View style={styles.spinner}>
+                <ActivityIndicator size='large' color='' />
+                <Text style={styles.spinnerText}>Trying to reconnect...</Text>
+                <Text style={styles.errorText}>Error: { connectionError }</Text>
             </View>
         </SafeAreaView>
     )
@@ -46,6 +65,11 @@ const styles = StyleSheet.create({
     spinnerText: {
         fontSize: 15,
         marginTop: 16
+    },
+    errorText: {
+        color: 'crimson',
+        marginTop: 40,
+        textAlign: 'center'
     }
 });
 

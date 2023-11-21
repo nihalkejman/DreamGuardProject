@@ -1,13 +1,11 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { useBLEContext } from './services/BLEContext';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAverageSpeed, useCurrentSpeed, useSessionStatus, useTopSpeed, useTotalAverageSpeed, useTotalRideTime } from './services/BikeboxHooks';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const HomeScreen = () => {
-    const insets = useSafeAreaInsets();
-
     const { connectedDevice } = useBLEContext();
     const speed = useCurrentSpeed();
     const averageSpeed = useAverageSpeed();
@@ -17,7 +15,7 @@ const HomeScreen = () => {
     const topSpeed = useTopSpeed();
 
     return (
-        <ScrollView contentContainerStyle={[styles.container, { paddingTop: insets.top, paddingLeft: insets.left, paddingRight: insets.right, paddingBottom: insets.bottom }]}>
+        <SafeAreaView style={[styles.container]}>
             <View style={{ width: '100%', padding: 25 }}>
                 <Text style={styles.titleText}>Home</Text>
                 <Text style={styles.subtitleText}>{ connectedDevice.localName }</Text>
@@ -31,50 +29,52 @@ const HomeScreen = () => {
                 <Text style={[styles.startSessionText, status ? styles.enabledButton : styles.disabledButton]}>{status ? 'Stop' : 'Start'} Session</Text>
             </TouchableOpacity>
 
-            <View style={styles.statsContainer}>
-                <View style={styles.statsSquare}>
-                    <Text style={styles.squareText}>{ speed }</Text>
-                    <Text style={styles.mphText}>mph</Text>
-                    <Text style={styles.unitText}>Current Speed</Text>
+            <ScrollView>
+                <View style={styles.statsContainer}>
+                    <View style={styles.statsSquare}>
+                        <Text style={styles.squareText}>{ speed }</Text>
+                        <Text style={styles.mphText}>mph</Text>
+                        <Text style={styles.unitText}>Current Speed</Text>
+                    </View>
+                    {
+                        status && (
+                            <>
+                                <View style={styles.statsSquare}>
+                                    <Text style={styles.squareText}>{ averageSpeed }</Text>
+                                    <Text style={styles.mphText}>mph</Text>
+                                    <Text style={styles.unitText}>Average Speed</Text>
+                                </View>
+                                <View style={styles.statsSquare}>
+                                    <Text style={styles.squareText}>{ topSpeed }</Text>
+                                    <Text style={styles.mphText}>mph</Text>
+                                    <Text style={styles.unitText}>Top Speed</Text>
+                                </View>
+                                <View style={styles.statsSquare}>
+                                    <Text style={styles.squareText}>{ getRideTime() }</Text>
+                                    <Text style={styles.mphText}>minutes</Text>
+                                    <Text style={styles.unitText}>Ride time</Text>
+                                </View>
+                            </>
+                        )
+                    }
                 </View>
-                {
-                    status && (
-                        <>
-                            <View style={styles.statsSquare}>
-                                <Text style={styles.squareText}>{ averageSpeed }</Text>
-                                <Text style={styles.mphText}>mph</Text>
-                                <Text style={styles.unitText}>Average Speed</Text>
-                            </View>
-                            <View style={styles.statsSquare}>
-                                <Text style={styles.squareText}>{ topSpeed }</Text>
-                                <Text style={styles.mphText}>mph</Text>
-                                <Text style={styles.unitText}>Top Speed</Text>
-                            </View>
-                            <View style={styles.statsSquare}>
-                                <Text style={styles.squareText}>{ getRideTime() }</Text>
-                                <Text style={styles.mphText}>minutes</Text>
-                                <Text style={styles.unitText}>Ride time</Text>
-                            </View>
-                        </>
-                    )
-                }
-            </View>
 
-            <Text style={styles.lifetimeStatsText}>Lifetime Stats</Text>
+                <Text style={styles.lifetimeStatsText}>Lifetime Stats</Text>
 
-            <View style={styles.statsContainer}>
-                <View style={styles.statsSquare}>
-                    <Text style={styles.squareText}>{ totalRideTime }</Text>
-                    <Text style={styles.mphText}>minutes</Text>
-                    <Text style={styles.unitText}>Total Ride Time</Text>
+                <View style={styles.statsContainer}>
+                    <View style={styles.statsSquare}>
+                        <Text style={styles.squareText}>{ totalRideTime }</Text>
+                        <Text style={styles.mphText}>minutes</Text>
+                        <Text style={styles.unitText}>Total Ride Time</Text>
+                    </View>
+                    <View style={styles.statsSquare}>
+                        <Text style={styles.squareText}>{ totalAverageSpeed }</Text>
+                        <Text style={styles.mphText}>mph</Text>
+                        <Text style={styles.unitText}>Average Speed</Text>
+                    </View>
                 </View>
-                <View style={styles.statsSquare}>
-                    <Text style={styles.squareText}>{ totalAverageSpeed }</Text>
-                    <Text style={styles.mphText}>mph</Text>
-                    <Text style={styles.unitText}>Average Speed</Text>
-                </View>
-            </View>
-        </ScrollView>
+            </ScrollView>
+        </SafeAreaView>
     );
 };
 
@@ -92,8 +92,6 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'space-between',
-        paddingHorizontal: 20,
-        paddingBottom: 20,
         backgroundColor: '#E7EEF6',
     },
     buttonContainer: {
@@ -134,14 +132,15 @@ const styles = StyleSheet.create({
         marginTop: 15,
     },
     lifetimeStatsText: {
-        fontSize: 18,
+        fontSize: 20,
         fontWeight: 'bold',
-        marginTop: 10,
+        marginVertical: 10,
+        textAlign: 'center'
     },
     statsContainer: {
         flexDirection: 'row',
         justifyContent: 'center',
-        marginTop: 10,
+        marginVertical: 15,
         flexWrap: 'wrap',
         gap: 30
     },

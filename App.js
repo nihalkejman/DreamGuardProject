@@ -12,7 +12,7 @@ import Unlock from './Unlock';
 import DeviceDiscovery from "./screens/DeviceDiscovery";
 import BLEContextProvider, { useBLEContext } from './services/BLEContext';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import DeviceConnecting from './screens/DeviceConnecting';
+import DeviceConnecting, { DeviceReconnecting } from './screens/DeviceConnecting';
 import { Ionicons } from '@expo/vector-icons';
 
 const Stack = createStackNavigator();
@@ -24,17 +24,18 @@ const LockStack = createStackNavigator();
 
 function Routes() {
 
-    const { connectedDevice, isConnecting } = useBLEContext();
+    const { connectedDevice, connectionError, isConnecting } = useBLEContext();
 
     return (
         <NavigationContainer>
             <Stack.Navigator initialRouteName="MainTabs" screenOptions={{ headerShown: false }}>
                 {
-                    connectedDevice === undefined ? (
-                        <Stack.Screen name="DeviceDiscovery" component={DeviceDiscovery} />
-                    ) :
                     isConnecting ? (
-                        <Stack.Screen name="DeviceConnecting" component={DeviceConnecting} />
+                        connectionError ? 
+                            <Stack.Screen name="DeviceReconnecting" component={DeviceReconnecting} /> 
+                        : <Stack.Screen name="DeviceConnecting" component={DeviceConnecting} />
+                    ) : connectedDevice === undefined ? (
+                        <Stack.Screen name="DeviceDiscovery" component={DeviceDiscovery} />
                     ) : (
                         <Stack.Screen name="MainTabs" component={MainTabs} />
                     )
@@ -83,8 +84,8 @@ function MainTabs() {
 
 function SettingView() {
     return (
-        <SettingStack.Navigator initialRouteName="SettingMain" screenOptions={{ headerShown: false }}>
-            <SettingStack.Screen name="SettingMain" component={SettingScreen} />
+        <SettingStack.Navigator initialRouteName="SettingHome" screenOptions={{ headerShown: false }}>
+            <SettingStack.Screen name="SettingHome" component={SettingScreen} />
             <SettingStack.Screen name="EmergencyContact" component={EmergencyContactScreen} options={{ title: 'Emergency Contact' }} />
             <SettingStack.Screen name="Account" component={Account} options={{ title: 'Account' }} />
         </SettingStack.Navigator>
@@ -93,8 +94,8 @@ function SettingView() {
 
 function LockView() {
     return (
-        <LockStack.Navigator initialRouteName='LockMain' screenOptions={{ headerShown: false }}>
-            <LockStack.Screen name="LockMain" component={Lock} />
+        <LockStack.Navigator initialRouteName='LockHome' screenOptions={{ headerShown: false }}>
+            <LockStack.Screen name="LockHome" component={Lock} />
             <LockStack.Screen name="Unlock" component={Unlock} />
         </LockStack.Navigator>
     )
