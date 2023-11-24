@@ -2,8 +2,6 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { useBLEContext } from './services/BLEContext';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import unlockImg from './assets/unlockButton.png';
-import lockImg from './assets/lockImage.png';
 import { EvilIcons } from '@expo/vector-icons';
 
 const BikeLockScreen = ({ navigation }) => {

@@ -8,7 +8,7 @@ export default function DeviceConnecting() {
 
     return (
         <SafeAreaView style={styles.container}>
-            <Image source={require('../assets/logo.png')} style={styles.headerImage} />
+            <Image source={require('../assets/icon.png')} style={styles.headerImage} />
             <Text style={styles.header}>
                 { connectedDevice?.localName ?? lastConnectedDevice?.localName }
             </Text>
@@ -26,7 +26,7 @@ export function DeviceReconnecting() {
 
     return (
         <SafeAreaView style={styles.container}>
-            <Image source={require('../assets/logo.png')} style={styles.headerImage} />
+            <Image source={require('../assets/icon.png')} style={styles.headerImage} />
             <Text style={styles.header}>
                 { lastConnectedDevice?.localName }
             </Text>

@@ -36,7 +36,7 @@ export default function DeviceDiscovery() {
 
     return (
         <SafeAreaView style={styles.container}>
-            <Image source={require('../assets/logo.png')} style={[styles.headerImage, scannedDevices.length === 0 ? styles.bigMargin : styles.smallMargin]} />
+            <Image source={require('../assets/icon.png')} style={[styles.headerImage, scannedDevices.length === 0 ? styles.bigMargin : styles.smallMargin]} />
             <Text style={styles.header}>
                 { scannedDevices.length === 0 ? 'Welcome' : 'Select your Bike Box' }
             </Text>
