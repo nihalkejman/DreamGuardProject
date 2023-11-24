@@ -15,8 +15,8 @@ export function useBLEContext() {
     return value;
 }
 
-const ble = new BluetoothManager();
-// const ble = new MockBluetoothManager();
+// const ble = new BluetoothManager();
+const ble = new MockBluetoothManager();
 
 export default function BLEContextProvider({ children }) {
     /**
@@ -32,8 +32,17 @@ export default function BLEContextProvider({ children }) {
     /**
      * Emergency contact states
      */
+    const [ isLocked, setIsLocked ] = useState(false);
     const [ hasSMSSent, setHasSMSSent ] = useState(false);
     const [ emergencyInfo, setEmergencyInfo ] = useState();
+
+    const disconnect = () => {
+        setConnectedDevice(undefined);
+        setConnectionError(undefined);
+        setIsLocked(false);
+        setHasSMSSent(false);
+        setEmergencyInfo(undefined);
+    }
 
     const reconnect = useCallback((deviceId, timeoutInSec, error) => {
         let timeout;
@@ -57,6 +66,7 @@ export default function BLEContextProvider({ children }) {
 
             setIsConnecting(false);
             setConnectionError(undefined);
+            disconnect();
         }, timeoutInSec * 1000);
 
         startScan();
@@ -155,6 +165,10 @@ export default function BLEContextProvider({ children }) {
         catch(err) {
             setConnectionError(err.reason);
         }
+    }
+
+    const toggleLock = () => {
+        setIsLocked(p => !p);
     }
     
     const getSpeed = async() => {
@@ -297,7 +311,10 @@ export default function BLEContextProvider({ children }) {
             setEmergencyContact,
             getUserName,
             setUserName,
-            sendSOS
+            sendSOS,
+            isLocked,
+            toggleLock,
+            disconnect
         }}>
             {children}
         </BLEContext.Provider>

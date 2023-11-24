@@ -8,7 +8,6 @@ import Lock from './Lock'
 import EmergencyContactScreen from './EmergencyContact';
 import HomeScreen from './Home';
 import Statistics from './Statistics';
-import Unlock from './Unlock';
 import DeviceDiscovery from "./screens/DeviceDiscovery";
 import BLEContextProvider, { useBLEContext } from './services/BLEContext';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -96,7 +95,6 @@ function LockView() {
     return (
         <LockStack.Navigator initialRouteName='LockHome' screenOptions={{ headerShown: false }}>
             <LockStack.Screen name="LockHome" component={Lock} />
-            <LockStack.Screen name="Unlock" component={Unlock} />
         </LockStack.Navigator>
     )
 }

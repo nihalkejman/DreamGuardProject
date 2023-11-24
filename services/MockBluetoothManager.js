@@ -6,7 +6,7 @@ export class MockBluetoothManager extends EventEmitter {
             this.emit('device-scan', {
                 id: '134',
                 name: 'Bike Box',
-                localName: 'Mock BikeBox',
+                localName: "Thura's BikeBox",
                 rssi: -18,
                 txPowerLevel: 31
             });

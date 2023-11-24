@@ -1,43 +1,39 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
-<<<<<<< HEAD
-import NavBar from './NavBar'; 
-=======
 import { useBLEContext } from './services/BLEContext';
 import { SafeAreaView } from 'react-native-safe-area-context';
->>>>>>> e8d422666bfed658fad6034cd3cf4a10e49e4586
+import unlockImg from './assets/unlockButton.png';
+import lockImg from './assets/lockImage.png';
+import { EvilIcons } from '@expo/vector-icons';
 
 const BikeLockScreen = ({ navigation }) => {
-    const handleUnlockPress = () => {
-        navigation.navigate('Unlock');
-    };
-
-    const { connectedDevice } = useBLEContext();
+    const { connectedDevice, toggleLock, isLocked } = useBLEContext();
 
     return (
         <SafeAreaView style={styles.container}>
             <View style={{ width: '100%' }}>
                 <Text style={styles.titleText}>Lock</Text>
-                <Text style={styles.subtitleText}>{ connectedDevice.localName }</Text>
+                <Text style={styles.subtitleText}>{ connectedDevice?.localName }</Text>
             </View>
-            <TouchableOpacity onPress={handleUnlockPress} style={{ marginTop: '25%' }}>
-                <Image source={require('./assets/lockImage.png')} style={styles.lockImage} />
+            <TouchableOpacity onPress={toggleLock} style={styles.lockBtn}>
+                <EvilIcons
+                    size={100}
+                    color={isLocked ? 'crimson' : 'green'}
+                    name={isLocked ? 'lock' : 'unlock'}
+                />
             </TouchableOpacity>
-            <Text style={styles.infoText}>Your bike is:</Text>
-            <Text style={styles.statusText}>Locked in place</Text>
-            <Text style={styles.trigger}>
-                Attempting to move it will trigger an alarm which can only be stopped from the app
+            <Text style={styles.infoText}>Your bike is</Text>
+            <Text style={[styles.statusText, { color: isLocked ? 'crimson' : 'green' }]}>
+                {isLocked ? 'Locked in place' : 'Free to move'}
             </Text>
-<<<<<<< HEAD
-
-            {/* Add NavBar at the bottom of the screen */}
-            <View style={styles.navBarLock}>
-                <NavBar style={styles.centered} />
-            </View>
-        </View>
-=======
+            {
+                isLocked && (
+                    <Text style={styles.noteText}>
+                        Attempting to move it will trigger a notification on your phone
+                    </Text>
+                )
+            }
         </SafeAreaView>
->>>>>>> e8d422666bfed658fad6034cd3cf4a10e49e4586
     );
 };
 
@@ -57,35 +53,37 @@ const styles = StyleSheet.create({
     subtitleText: {
         color: '#BCC1CA'
     },
-    lockImage: {
-        width: 100,
-        height: 100,
-        marginTop: 20,
+    lockBtn: {
+        marginTop: '15%',
+        marginBottom: '25%',
+        height: 130,
+        width: 130,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 50,
+        backgroundColor: 'white',
+        shadowColor: 'rgba(0,0,0, 0.25)',
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 1,
+        shadowRadius: 10,
+        elevation: 5
     },
     infoText: {
         fontSize: 20,
-        marginTop: 20,
+        fontWeight: 'bold',
+        textAlign: 'left',
     },
     statusText: {
         fontSize: 24,
         fontWeight: 'bold',
-        color: 'red',
+        textAlign: 'right'
     },
-    trigger: {
+    noteText: {
         fontSize: 15,
         fontStyle: 'italic',
         color: 'grey',
-        marginTop: 25
-    },
-    navBarLock: {
-        position: 'absolute',
-        bottom: 0,
-        width: '100%',
-    },
-    centered: {
-        justifyContent: 'center',
-        width: '100%',
-    },
+        marginTop: 35
+    }
 });
 
 export default BikeLockScreen;

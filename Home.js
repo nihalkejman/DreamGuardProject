@@ -18,7 +18,7 @@ const HomeScreen = () => {
         <SafeAreaView style={[styles.container]}>
             <View style={{ width: '100%', padding: 25 }}>
                 <Text style={styles.titleText}>Home</Text>
-                <Text style={styles.subtitleText}>{ connectedDevice.localName }</Text>
+                <Text style={styles.subtitleText}>{ connectedDevice?.localName }</Text>
             </View>
     
             <TouchableOpacity

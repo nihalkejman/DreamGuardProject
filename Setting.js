@@ -4,30 +4,44 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useBLEContext } from './services/BLEContext';
 
 const SettingScreen = ({ navigation }) => {
+
+    const { disconnect, connectedDevice } = useBLEContext();
+
+    const handlePress = (item) => {
+        if (item.screenName) {
+            return navigation.navigate(item.screenName)
+        }
+        if (item.onClick) {
+            return item.onClick();
+        }
+    }
+
+    const handleDisconnect = () => {
+        disconnect();
+    }
+
     const settingsOptions = [
         { title: 'Account', screenName: 'Account' },
         { title: 'Emergency Contact', screenName: 'EmergencyContact' },
         { title: 'Data Privacy' },
         { title: 'Help Centre' },
         { title: 'Privacy Policy' },
-        { title: 'Logout' },
+        { title: 'Disconnect', onClick: handleDisconnect },
     ];
 
     const renderItem = ({ item }) => {
         return (
-            <TouchableOpacity onPress={() => navigation.navigate(item.screenName)} style={styles.itemContainer}>
+            <TouchableOpacity onPress={() => handlePress(item)} style={styles.itemContainer}>
                 <Text style={styles.itemText}>{item.title}</Text>
             </TouchableOpacity>
         );
     };
 
-    const { connectedDevice } = useBLEContext();
-
     return (
         <SafeAreaView style={styles.container}>
             <View style={{ width: '100%', padding: 25 }}>
                 <Text style={styles.titleText}>Settings</Text>
-                <Text style={styles.subtitleText}>{ connectedDevice.localName }</Text>
+                <Text style={styles.subtitleText}>{ connectedDevice?.localName }</Text>
             </View>
             <FlatList
                 data={settingsOptions}
