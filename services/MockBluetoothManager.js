@@ -26,7 +26,7 @@ export class MockBluetoothManager extends EventEmitter {
      * Mock Values
      */
     getRandomSpeed() {
-        return Math.random() * 25;
+        return Math.random() * 14.99;
     }
     getRandomTime() {
         return Math.random() * 500;
@@ -48,7 +48,7 @@ export class MockBluetoothManager extends EventEmitter {
                 9: {"top_speed": 0, "avg_speed": 0, "start_time": 1699984922, "end_time": 1699984946}
             }));
         },
-        EMERGENCY_CONTACT: () => JSON.stringify({ emc_name: '', emc_phone: '', emc_msg: '' })
+        EMERGENCY_CONTACT: () => JSON.stringify({ emc_name: 'Thura', emc_phone: '+447452731408', emc_msg: "Help!!! I'm dying on the road and bleeding out." })
     };
 
     readChar(characteristic) {

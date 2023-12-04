@@ -13,6 +13,7 @@ import BLEContextProvider, { useBLEContext } from './services/BLEContext';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import DeviceConnecting, { DeviceReconnecting } from './screens/DeviceConnecting';
 import { Ionicons } from '@expo/vector-icons';
+import BikeBoxProvider from './services/BikeBoxContext';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -102,9 +103,11 @@ function LockView() {
 export default function App() {
     return (
         <BLEContextProvider>
-            <SafeAreaProvider>
-                <Routes />
-            </SafeAreaProvider>
+            <BikeBoxProvider>
+                <SafeAreaProvider>
+                    <Routes />
+                </SafeAreaProvider>
+            </BikeBoxProvider>
         </BLEContextProvider>
     );
 }

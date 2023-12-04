@@ -1,6 +1,6 @@
 import { createContext, useEffect, useContext, useState, useCallback } from "react";
 import { BluetoothManager } from "./BluetoothManager";
-// import { MockBluetoothManager } from "./MockBluetoothManager";
+import { MockBluetoothManager } from "./MockBluetoothManager";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const BLEContext = createContext(undefined);
@@ -14,8 +14,8 @@ export function useBLEContext() {
     return value;
 }
 
-const ble = new BluetoothManager();
-// const ble = new MockBluetoothManager();
+// const ble = new BluetoothManager();
+const ble = new MockBluetoothManager();
 
 export default function BLEContextProvider({ children }) {
     /**
@@ -31,7 +31,6 @@ export default function BLEContextProvider({ children }) {
     const disconnect = () => {
         setConnectedDevice(undefined);
         setConnectionError(undefined);
-        setIsLocked(false);
         updateLastConnectedDevice(null);
     }
 

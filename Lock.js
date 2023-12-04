@@ -3,9 +3,11 @@ import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { useBLEContext } from './services/BLEContext';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { EvilIcons } from '@expo/vector-icons';
+import { useBikeBoxContext } from './services/BikeBoxContext';
 
 const BikeLockScreen = ({ navigation }) => {
-    const { connectedDevice, toggleLock, isLocked } = useBLEContext();
+    const { connectedDevice } = useBLEContext();
+    const { toggleLock, isLocked } = useBikeBoxContext();
 
     return (
         <SafeAreaView style={styles.container}>

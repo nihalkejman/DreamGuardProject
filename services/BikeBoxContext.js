@@ -22,7 +22,6 @@ const BikeBoxProvider = ({ children }) => {
     // const [expoPushToken, setExpoPushToken] = useState("");
 
     const registerForPushNotificationsAsync = async () => {
-
         const { status: existingStatus } = await Notifications.getPermissionsAsync();
         let finalStatus = existingStatus;
         
@@ -51,18 +50,13 @@ const BikeBoxProvider = ({ children }) => {
     useEffect(() => {
         registerForPushNotificationsAsync();
 
-        const notificationListener = Notifications.addNotificationReceivedListener((notification) => {
-            console.warn(notification);
+        Notifications.setNotificationHandler({
+            handleNotification: async () => ({
+                shouldShowAlert: true,
+                shouldPlaySound: true,
+                shouldSetBadge: false,
+            })
         });
-
-        const responseListener = Notifications.addNotificationResponseReceivedListener((response) => {
-            console.warn(response);
-        });
-
-        return () => {
-            notificationListener.remove();
-            responseListener.remove();
-        };
     }, []);
 
     /**
@@ -105,10 +99,9 @@ const BikeBoxProvider = ({ children }) => {
     }, [connectedDevice])
 
     const sendSOS = async () => {
-        const emergencyInfo = await getEmergencyContact();
-        if (!hasSMSSent && emergencyInfo.emc_phone && emergencyInfo.emc_msg) {
+        const { emc_phone, emc_msg } = await getEmergencyContact();
+        if (!hasSMSSent && emc_phone && emc_msg) {
             sendSMS(emc_phone, emc_msg);
-            setHasSMSSent(true);
         }
     }
     // Compare previous speed and current speed to send crash SMS
@@ -116,6 +109,7 @@ const BikeBoxProvider = ({ children }) => {
         if (hasSMSSent) return;
 
         if (prevSpeed.current > 15 && speed < 5 && speed > 0) {
+            setHasSMSSent(true);
             sendSOS();
         }
         prevSpeed.current = speed;
@@ -130,14 +124,14 @@ const BikeBoxProvider = ({ children }) => {
         if (hasNotiSent) return;
 
         if (isLocked && speed > 5) {
-            console.warn('Bike theft!!!!!!!!!!');
             setHasNotiSent(true);
             Notifications.scheduleNotificationAsync({
                 trigger: {
                     seconds: 1
                 },
                 content: {
-                    title: 'Bike movement detected while locked!'
+                    title: 'BikeBox Alarm',
+                    body: 'Bike movement detected while locked!'
                 }
             });
         }
@@ -152,4 +146,6 @@ const BikeBoxProvider = ({ children }) => {
             {children}
         </BikeBoxContext.Provider>
     );
-}
+};
+
+export default BikeBoxProvider;
