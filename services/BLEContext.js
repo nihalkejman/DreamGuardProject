@@ -1,7 +1,6 @@
 import { createContext, useEffect, useContext, useState, useCallback } from "react";
 import { BluetoothManager } from "./BluetoothManager";
-import { MockBluetoothManager } from "./MockBluetoothManager";
-import { sendSMS } from "./SMS";
+// import { MockBluetoothManager } from "./MockBluetoothManager";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const BLEContext = createContext(undefined);
@@ -15,8 +14,8 @@ export function useBLEContext() {
     return value;
 }
 
-// const ble = new BluetoothManager();
-const ble = new MockBluetoothManager();
+const ble = new BluetoothManager();
+// const ble = new MockBluetoothManager();
 
 export default function BLEContextProvider({ children }) {
     /**
@@ -29,19 +28,11 @@ export default function BLEContextProvider({ children }) {
     const [ connectionError, setConnectionError ] = useState();
     const [ lastConnectedDevice, setLastConnectedDevice ] = useState();
 
-    /**
-     * Emergency contact states
-     */
-    const [ isLocked, setIsLocked ] = useState(false);
-    const [ hasSMSSent, setHasSMSSent ] = useState(false);
-    const [ emergencyInfo, setEmergencyInfo ] = useState();
-
     const disconnect = () => {
         setConnectedDevice(undefined);
         setConnectionError(undefined);
         setIsLocked(false);
-        setHasSMSSent(false);
-        setEmergencyInfo(undefined);
+        updateLastConnectedDevice(null);
     }
 
     const reconnect = useCallback((deviceId, timeoutInSec, error) => {
@@ -134,6 +125,9 @@ export default function BLEContextProvider({ children }) {
 
     const updateLastConnectedDevice = async(device) => {
         try {
+            if (!device) {
+                return await AsyncStorage.removeItem('@last-connected-device');
+            }
             const obj = {
                 id: device.id,
                 name: device.name,
@@ -164,11 +158,9 @@ export default function BLEContextProvider({ children }) {
         }
         catch(err) {
             setConnectionError(err.reason);
+            setIsConnecting(false);
+            setConnectedDevice(device);
         }
-    }
-
-    const toggleLock = () => {
-        setIsLocked(p => !p);
     }
     
     const getSpeed = async() => {
@@ -234,7 +226,6 @@ export default function BLEContextProvider({ children }) {
             const s = await ble.readChar('EMERGENCY_CONTACT');
             const sos = JSON.parse(s);
 
-            setEmergencyInfo(sos);
             return sos;
         } catch(err) {
             console.error(err);
@@ -282,13 +273,6 @@ export default function BLEContextProvider({ children }) {
         }
     }
 
-    const sendSOS = () => {
-        if (!hasSMSSent && emergencyInfo.emc_phone && emergencyInfo.emc_msg) {
-            sendSMS(emc_phone, emc_msg);
-            setHasSMSSent(true);
-        }
-    }
-
     return (
         <BLEContext.Provider value={{
             startScan,
@@ -311,9 +295,6 @@ export default function BLEContextProvider({ children }) {
             setEmergencyContact,
             getUserName,
             setUserName,
-            sendSOS,
-            isLocked,
-            toggleLock,
             disconnect
         }}>
             {children}

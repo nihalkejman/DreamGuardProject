@@ -1,38 +1,16 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useBLEContext } from "./BLEContext";
-import { sendSMS } from "./SMS";
+import { useBikeBoxContext } from "./BikeBoxContext";
 
 export function useCurrentSpeed() {
-    const { getSpeed } = useBLEContext();
-    const [ speed, setSpeed ] = useState(0);
-
-    const prevSpeed = useRef(0);
-    const { sendSOS } = useBLEContext();
-    
-    useEffect(() => {
-        let timeout;
-
-        const fn = async() => {
-            const val = await getSpeed();
-            if (val) {
-                setSpeed(Number(val).toFixed(1));
-            }
-            timeout = setTimeout(fn, 500);
-        }
-        fn();
-        return () => clearTimeout(timeout);
-    }, []);
-
-    useEffect(() => {
-        if (prevSpeed.current > 15 && speed < 5) {
-            sendSOS();
-        }
-        prevSpeed.current = speed;
-    }, [ speed ]);
-
+    const { speed } = useBikeBoxContext();
     return speed;
 }
 
+/**
+ * Average and top speeds don't need to be tracked when not on home screen.
+ * So, they can stay in hooks instead of global context
+ */
 export function useAverageSpeed() {
     const { getAverageSpeed } = useBLEContext();
     const [ speed, setSpeed ] = useState(0);

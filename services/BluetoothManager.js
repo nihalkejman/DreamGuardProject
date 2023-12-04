@@ -102,7 +102,7 @@ export class BluetoothManager extends EventEmitter {
         try {
             // Proceed with connection.
             this.emit('device-connect', device);
-            this.connectedDevice = await device.connect();
+            this.connectedDevice = await device.connect({ timeout: 11000 });
             this.connectedDevice.localName = device.localName;
 
             await this.connectedDevice.discoverAllServicesAndCharacteristics();

@@ -64,7 +64,8 @@ const styles = StyleSheet.create({
     },
     spinnerText: {
         fontSize: 15,
-        marginTop: 16
+        marginTop: 16,
+        textAlign: 'center'
     },
     errorText: {
         color: 'crimson',
