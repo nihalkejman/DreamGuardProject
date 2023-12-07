@@ -1,7 +1,6 @@
 import { createContext, useEffect, useContext, useState, useCallback } from "react";
 import { BluetoothManager } from "./BluetoothManager";
-import { MockBluetoothManager } from "./MockBluetoothManager";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+// import { MockBluetoothManager } from "./MockBluetoothManager";
 
 const BLEContext = createContext(undefined);
 
@@ -14,8 +13,8 @@ export function useBLEContext() {
     return value;
 }
 
-// const ble = new BluetoothManager();
-const ble = new MockBluetoothManager();
+const ble = new BluetoothManager();
+// const ble = new MockBluetoothManager();
 
 export default function BLEContextProvider({ children }) {
     /**
@@ -61,17 +60,6 @@ export default function BLEContextProvider({ children }) {
 
         startScan();
     }, [])
-
-    useEffect(() => {
-        (async() => {
-            const obj = await AsyncStorage.getItem('@last-connected-device');
-            if (obj) {
-                const device = JSON.parse(obj);
-                setLastConnectedDevice(device);
-                reconnect(device.id, 5, null);
-            }
-        })();
-    }, []);
 
     useEffect(() => {
         const disconnectCb = (error) => {
@@ -124,16 +112,12 @@ export default function BLEContextProvider({ children }) {
 
     const updateLastConnectedDevice = async(device) => {
         try {
-            if (!device) {
-                return await AsyncStorage.removeItem('@last-connected-device');
-            }
             const obj = {
                 id: device.id,
                 name: device.name,
                 localName: device.localName
             };
             setLastConnectedDevice(obj);
-            await AsyncStorage.setItem('@last-connected-device', JSON.stringify(obj));
         } catch(err) {
             console.error(err);
         }

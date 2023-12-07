@@ -62,7 +62,7 @@ const BikeBoxProvider = ({ children }) => {
     /**
      * Speed states
      */
-    const { getSpeed, getEmergencyContact, connectedDevice } = useBLEContext();
+    const { getSpeed, getEmergencyContact, connectedDevice, getUserName, isConnecting } = useBLEContext();
     const [speed, setSpeed] = useState(0);
 
     /**
@@ -71,6 +71,8 @@ const BikeBoxProvider = ({ children }) => {
     const prevSpeed = useRef(0);
 
     useEffect(() => {
+        if (!connectedDevice || isConnecting) return;
+
         let timeout;
 
         const fn = async () => {
@@ -82,7 +84,7 @@ const BikeBoxProvider = ({ children }) => {
         }
         fn();
         return () => clearTimeout(timeout);
-    }, []);
+    }, [connectedDevice, isConnecting]);
 
     /**
      * Lock, sms states
@@ -98,11 +100,12 @@ const BikeBoxProvider = ({ children }) => {
         setHasNotiSent(false);
     }, [connectedDevice])
 
-    const sendSOS = async () => {
+    const send = async () => {
         const { emc_phone, emc_msg } = await getEmergencyContact();
-        if (!hasSMSSent && emc_phone && emc_msg) {
-            sendSMS(emc_phone, emc_msg);
-        }
+        const name = await getUserName();
+
+        if (hasSMSSent || !emc_msg || !emc_phone) return;
+        sendSMS(emc_phone, emc_msg, name);
     }
     // Compare previous speed and current speed to send crash SMS
     useEffect(() => {
@@ -110,7 +113,7 @@ const BikeBoxProvider = ({ children }) => {
 
         if (prevSpeed.current > 15 && speed < 5 && speed > 0) {
             setHasSMSSent(true);
-            sendSOS();
+            send();
         }
         prevSpeed.current = speed;
     }, [speed, hasSMSSent]);
@@ -131,7 +134,8 @@ const BikeBoxProvider = ({ children }) => {
                 },
                 content: {
                     title: 'BikeBox Alarm',
-                    body: 'Bike movement detected while locked!'
+                    body: 'Bike movement detected while locked!',
+                    sound: true
                 }
             });
         }

@@ -1,4 +1,5 @@
 import { EventEmitter } from 'events';
+import { sendSMS } from './SMS';
 
 export class MockBluetoothManager extends EventEmitter {
     startScan() {
@@ -48,7 +49,12 @@ export class MockBluetoothManager extends EventEmitter {
                 9: {"top_speed": 0, "avg_speed": 0, "start_time": 1699984922, "end_time": 1699984946}
             }));
         },
-        EMERGENCY_CONTACT: () => JSON.stringify({ emc_name: 'Thura', emc_phone: '+447452731408', emc_msg: "Help!!! I'm dying on the road and bleeding out." })
+        EMERGENCY_CONTACT: () => JSON.stringify({
+            emc_name: 'Thura',
+            emc_phone: '+447578377073',
+            emc_msg: "BikeBox detected a crash during my bike ride!! Call me."
+        }),
+        USER_NAME: () => "Thura"
     };
 
     readChar(characteristic) {
@@ -56,5 +62,12 @@ export class MockBluetoothManager extends EventEmitter {
     }
     writeChar(characteristic, value) {
         if (characteristic === 'SESSION_STATUS') this.status = Number(value);
+        // Test SMS
+        if (characteristic === 'EMERGENCY_CONTACT') {
+            const { emc_phone, emc_msg } = JSON.parse(value);
+            setTimeout(() => {
+                sendSMS(emc_phone, emc_msg, this.MOCK_CHARS.USER_NAME());
+            }, 2000);
+        }
     }
 }
